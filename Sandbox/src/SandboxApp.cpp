@@ -1,5 +1,6 @@
 #include <Acrylic.h>
 
+
 class Sandbox : public Acrylic::Application
 {
 public:

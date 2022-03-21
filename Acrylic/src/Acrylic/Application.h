@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core.h"
+#include "Events/Event.h"
+
 
 namespace Acrylic {
 
@@ -15,4 +17,5 @@ namespace Acrylic {
 
 	// To be defined in CLIENT
 	Application* CreateApplication();
+
 }

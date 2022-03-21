@@ -1,0 +1,3 @@
+[submodule "Acrylic/vendor/spdlog"]
+	path = Acrylic/vendor/spdlog
+	url = https://github.com/gabime/spdlog
