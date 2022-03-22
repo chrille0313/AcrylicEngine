@@ -1,3 +1,6 @@
 [submodule "Acrylic/vendor/spdlog"]
 	path = Acrylic/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Acrylic/vendor/GLFW"]
+	path = Acrylic/vendor/GLFW
+	url = https://github.com/TheCherno/GLFW
