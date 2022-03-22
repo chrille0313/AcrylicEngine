@@ -3,6 +3,7 @@
 // For use by Acrylic applications
 
 #include "Acrylic/Application.h"
+#include "Acrylic/Layer.h"
 #include "Acrylic/Log.h"
 
 // ---------- Entry Point ----------
