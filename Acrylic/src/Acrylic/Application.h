@@ -7,6 +7,8 @@
 #include "Acrylic/Events/Event.h"
 #include "Acrylic/Events/ApplicationEvent.h"
 
+#include "Acrylic/ImGui/ImGuiLayer.h"
+
 
 namespace Acrylic {
 
@@ -30,6 +32,7 @@ namespace Acrylic {
 		bool OnWindowClose(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
+		ImGuiLayer* m_ImGuiLayer;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
 

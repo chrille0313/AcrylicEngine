@@ -1,5 +1,7 @@
 #include <Acrylic.h>
 
+#include "imgui/imgui.h"
+
 
 class TestLayer : public Acrylic::Layer {
 public:
@@ -10,6 +12,15 @@ public:
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_SPACE))
 			AC_TRACE("Space key is pressed!");
 	}
+
+
+	virtual void OnImGuiRender() override
+	{
+		ImGui::Begin("Test");
+		ImGui::Text("Hello Wordl!");
+		ImGui::End();
+	}
+
 
 	void OnEvent(Acrylic::Event& event) override
 	{
@@ -26,7 +37,6 @@ public:
 	Sandbox()
 	{
 		PushLayer(new TestLayer());
-		PushOverlay(new Acrylic::ImGuiLayer());
 	}
 
 	~Sandbox() {}
