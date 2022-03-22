@@ -1,18 +1,31 @@
 #include <Acrylic.h>
 
 
+class TestLayer : public Acrylic::Layer
+{
+public:
+	TestLayer() : Layer("Test") {}
+
+	void OnUpdate() override
+	{
+		AC_INFO("ExampleLayer::Update");
+	}
+
+	void OnEvent(Acrylic::Event& event) override
+	{
+		AC_TRACE("{0}", event);
+	}
+};
+
 class Sandbox : public Acrylic::Application
 {
 public:
 	Sandbox()
 	{
-
+		PushLayer(new TestLayer());
 	}
 
-	~Sandbox()
-	{
-
-	}
+	~Sandbox() {}
 };
 
 Acrylic::Application* Acrylic::CreateApplication()
