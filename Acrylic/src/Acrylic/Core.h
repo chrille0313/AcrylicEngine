@@ -11,6 +11,10 @@
 #error Acrylic only supports Windows!
 #endif
 
+#ifdef AC_DEBUG
+#define AC_ENABLE_ASSERTS
+#endif
+
 #ifdef AC_ENABLE_ASSERTS
 #define AC_ASSERT(x, ...) { if(!(x)) { AC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 #define AC_CORE_ASSERT(x, ...) { if(!(x)) { AC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
@@ -19,3 +23,5 @@
 #define AC_CORE_ASSERT(x, ...)
 #endif 
 #define BIT(x) (1 << x)
+
+#define AC_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)

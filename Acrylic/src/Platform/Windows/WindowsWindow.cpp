@@ -5,6 +5,8 @@
 #include "Acrylic/Events/MouseEvent.h"
 #include "Acrylic/Events/KeyEvent.h"
 
+#include <glad/glad.h>
+
 
 namespace Acrylic {
 
@@ -49,6 +51,8 @@ namespace Acrylic {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		AC_CORE_ASSERT(status, "Failed to initialize Glad!");
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -98,6 +102,13 @@ namespace Acrylic {
 				}
 			});
 
+		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+				KeyTypedEvent event(keycode);
+				data.EventCallback(event);
+			});
+
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int modes)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
@@ -119,19 +130,19 @@ namespace Acrylic {
 				}
 			});
 
+		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
+			{
+				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+				MouseMovedEvent event((float)xPos, (float)yPos);
+				data.EventCallback(event);
+			});
+
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset)
 			{
 				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 				MouseScrolledEvent event((float)xOffset, (float)yOffset);
-				data.EventCallback(event);
-			});
-
-		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
-			{
-				WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-				MouseScrolledEvent event((float)xPos, (float)yPos);
 				data.EventCallback(event);
 			});
 	}

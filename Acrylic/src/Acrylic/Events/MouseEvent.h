@@ -31,7 +31,7 @@ namespace Acrylic {
 		MouseScrolledEvent(float xOffset, float yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {}
 
 		inline float GetXOffset() const { return m_xOffset; }
-		inline float GetYGetXOffset() const { return m_yOffset; }
+		inline float GetYOffset() const { return m_yOffset; }
 
 		std::string ToString() const override
 		{
