@@ -1,7 +1,6 @@
 #include "acpch.h"
 #include "Application.h"
 
-#include "Acrylic/Events/ApplicationEvent.h"
 #include "Acrylic/log.h"
 
 #include <GLFW/glfw3.h>
@@ -21,7 +20,9 @@ namespace Acrylic {
 
 	void Application::OnEvent(Event& e)
 	{
-		AC_CORE_INFO("{0}", e);
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
+		AC_CORE_TRACE("{0}", e);
 	}
 
 	void Application::Run()
@@ -31,6 +32,12 @@ namespace Acrylic {
 			glClear(GL_COLOR_BUFFER_BIT);
 			m_Window->OnUpdate();
 		}
+	}
+
+	bool Application::OnWindowClose(WindowCloseEvent& e)
+	{
+		m_Running = false;
+		return true;
 	}
 
 }
