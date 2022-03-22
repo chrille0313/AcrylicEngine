@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Acrylic/vendor/GLFW/include"
 IncludeDir["Glad"] = "Acrylic/vendor/Glad/include"
 IncludeDir["ImGui"] = "Acrylic/vendor/imgui"
+IncludeDir["glm"] = "Acrylic/vendor/glm"
 
 
 include "Acrylic/vendor/GLFW"
@@ -37,6 +38,8 @@ project "Acrylic"
 	files {
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl",
 	}
 
 	includedirs {
@@ -45,6 +48,7 @@ project "Acrylic"
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}",
 	}
 
 	links {
@@ -100,7 +104,8 @@ project "Sandbox"
 
 	includedirs {
 		"Acrylic/vendor/spdlog/include",
-		"Acrylic/src"
+		"Acrylic/src",
+		"%{IncludeDir.glm}",
 	}
 
 	links {
