@@ -12,7 +12,7 @@
 #endif
 
 #ifdef AC_DEBUG
-#define AC_ENABLE_ASSERTS
+
 #endif
 
 #ifdef AC_ENABLE_ASSERTS
@@ -22,6 +22,7 @@
 #define AC_ASSERT(x, ...)
 #define AC_CORE_ASSERT(x, ...)
 #endif 
+
 #define BIT(x) (1 << x)
 
 #define AC_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
