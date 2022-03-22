@@ -67,6 +67,7 @@ namespace Acrylic {
 
 			return false;
 		}
+
 	private:
 		Event& m_Event;
 	};
