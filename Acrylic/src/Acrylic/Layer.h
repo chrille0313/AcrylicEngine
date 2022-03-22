@@ -6,8 +6,7 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API Layer
-	{
+	class ACRYLIC_API Layer {
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer();

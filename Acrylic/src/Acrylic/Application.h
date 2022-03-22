@@ -10,8 +10,7 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API Application
-	{
+	class ACRYLIC_API Application {
 	public:
 		Application();
 		virtual ~Application();

@@ -5,8 +5,7 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API MouseMovedEvent : public Event
-	{
+	class ACRYLIC_API MouseMovedEvent : public Event {
 	public:
 		MouseMovedEvent(float x, float y) : m_MouseX(x), m_MouseY(y) {}
 
@@ -27,8 +26,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API MouseScrolledEvent : public Event
-	{
+	class ACRYLIC_API MouseScrolledEvent : public Event {
 	public:
 		MouseScrolledEvent(float xOffset, float yOffset) : m_xOffset(xOffset), m_yOffset(yOffset) {}
 
@@ -49,8 +47,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API MouseButtonEvent : public Event
-	{
+	class ACRYLIC_API MouseButtonEvent : public Event {
 	public:
 		inline int GetMouseButton() const { return m_Button; }
 
@@ -62,8 +59,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API MouseButtonPressedEvent : public MouseButtonEvent
-	{
+	class ACRYLIC_API MouseButtonPressedEvent : public MouseButtonEvent {
 	public:
 		MouseButtonPressedEvent(int button) : MouseButtonEvent(button) {}
 
@@ -78,8 +74,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API MouseButtonReleasedEvent : public MouseButtonEvent
-	{
+	class ACRYLIC_API MouseButtonReleasedEvent : public MouseButtonEvent {
 	public:
 		MouseButtonReleasedEvent(int button) : MouseButtonEvent(button) {}
 

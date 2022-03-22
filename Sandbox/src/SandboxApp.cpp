@@ -1,7 +1,6 @@
 #include <Acrylic.h>
 
-class TestLayer : public Acrylic::Layer
-{
+class TestLayer : public Acrylic::Layer {
 public:
 	TestLayer() : Layer("Test") {}
 
@@ -13,8 +12,7 @@ public:
 	}
 };
 
-class Sandbox : public Acrylic::Application
-{
+class Sandbox : public Acrylic::Application {
 public:
 	Sandbox()
 	{

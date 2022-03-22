@@ -6,8 +6,7 @@
 
 namespace Acrylic {
 
-	enum class EventType
-	{
+	enum class EventType {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
@@ -15,8 +14,7 @@ namespace Acrylic {
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
-	enum EventCategory
-	{
+	enum EventCategory {
 		None = 0,
 		EventCategoryApplication = BIT(0),
 		EventCategoryInput = BIT(1),
@@ -32,8 +30,7 @@ namespace Acrylic {
 	#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
 
-	class ACRYLIC_API Event
-	{
+	class ACRYLIC_API Event {
 	public:
 		bool Handled = false;
 
@@ -48,8 +45,7 @@ namespace Acrylic {
 		}
 	};
 
-	class EventDispatcher
-	{
+	class EventDispatcher {
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 	public:

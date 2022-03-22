@@ -181,8 +181,7 @@
 #endif
 
 // OpenGL Data
-struct ImGui_ImplOpenGL3_Data
-{
+struct ImGui_ImplOpenGL3_Data {
 	GLuint          GlVersion;               // Extracted at runtime using GL_MAJOR_VERSION, GL_MINOR_VERSION queries (e.g. 320 for GL 3.2)
 	char            GlslVersionString[32];   // Specified by user or detected based on compile time GL settings.
 	GLuint          FontTexture;

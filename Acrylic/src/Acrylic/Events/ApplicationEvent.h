@@ -5,8 +5,7 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API WindowResizeEvent : public Event
-	{
+	class ACRYLIC_API WindowResizeEvent : public Event {
 	public:
 		WindowResizeEvent(unsigned int width, unsigned int height) : m_Width(width), m_Height(height) {}
 
@@ -28,8 +27,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API WindowCloseEvent : public Event
-	{
+	class ACRYLIC_API WindowCloseEvent : public Event {
 	public:
 		WindowCloseEvent() {}
 
@@ -38,8 +36,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API AppTickEvent : public Event
-	{
+	class ACRYLIC_API AppTickEvent : public Event {
 	public:
 		AppTickEvent() {}
 
@@ -48,8 +45,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API AppUpdateEvent : public Event
-	{
+	class ACRYLIC_API AppUpdateEvent : public Event {
 	public:
 		AppUpdateEvent() {}
 
@@ -58,8 +54,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API AppRenderEvent : public Event
-	{
+	class ACRYLIC_API AppRenderEvent : public Event {
 	public:
 		AppRenderEvent() {}
 

@@ -5,8 +5,7 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API KeyEvent : public Event
-	{
+	class ACRYLIC_API KeyEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
 
@@ -18,8 +17,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API KeyPressedEvent : public KeyEvent
-	{
+	class ACRYLIC_API KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(int keycode, int repeatCount) : KeyEvent(keycode), m_RepeatCount(repeatCount) {}
 
@@ -38,8 +36,7 @@ namespace Acrylic {
 	};
 
 
-	class ACRYLIC_API KeyReleasedEvent : public KeyEvent
-	{
+	class ACRYLIC_API KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keycode) : KeyEvent(keycode) {}
 
@@ -53,8 +50,7 @@ namespace Acrylic {
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
 
-	class ACRYLIC_API KeyTypedEvent : public KeyEvent
-	{
+	class ACRYLIC_API KeyTypedEvent : public KeyEvent {
 	public:
 		KeyTypedEvent(int keycode) : KeyEvent(keycode) {}
 
