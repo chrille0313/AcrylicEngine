@@ -37,6 +37,12 @@
     <ClInclude Include="src\Acrylic\Events\MouseEvent.h">
       <Filter>Acrylic\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Layer.h">
+      <Filter>Acrylic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\LayerStack.h">
+      <Filter>Acrylic</Filter>
+    </ClInclude>
     <ClInclude Include="src\Acrylic\Log.h">
       <Filter>Acrylic</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Application.cpp">
+      <Filter>Acrylic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Layer.cpp">
+      <Filter>Acrylic</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\LayerStack.cpp">
       <Filter>Acrylic</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\Log.cpp">
