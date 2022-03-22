@@ -59,14 +59,17 @@ project "Acrylic"
 
 	filter "configurations:Debug"
 		defines "AC_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "AC_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "AC_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Sandbox"
@@ -102,12 +105,15 @@ project "Sandbox"
 
 	filter "configurations:Debug"
 		defines "AC_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "AC_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "AC_DIST"
+		buildoptions "/MD"
 		optimize "On"
