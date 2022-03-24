@@ -1346,6 +1346,15 @@
     </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Acrylic\Renderer\Shader.h" />
+    <ClInclude Include="src\Acrylic\Renderer\Buffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Acrylic\Renderer\Renderer.h" />
+    <ClInclude Include="src\Acrylic\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="src\Acrylic\Renderer\RendererAPI.h" />
+    <ClInclude Include="src\Acrylic\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Application.cpp">
@@ -1376,5 +1385,14 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\RendererAPI.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
   </ItemGroup>
 </Project>

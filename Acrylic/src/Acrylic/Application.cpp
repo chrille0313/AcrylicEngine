@@ -3,7 +3,7 @@
 
 #include "Acrylic/log.h"
 
-#include <glad/glad.h>
+#include "Acrylic/Renderer/Renderer.h"
 
 #include "Input.h"
 
@@ -55,8 +55,8 @@ namespace Acrylic {
 	void Application::Run()
 	{
 		while (m_Running) {
-			glClearColor(0.2f, 0.2f, 0.2f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1 });
+			RenderCommand::Clear();
 
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
