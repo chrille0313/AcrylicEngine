@@ -5,7 +5,7 @@
 
 class TestLayer : public Acrylic::Layer {
 public:
-	TestLayer() : Layer("Test"), m_MainCamera(-1.6f, 1.6f, -0.9f, 0.9f)
+	TestLayer() : Layer("Test"), m_MainCamera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
 	{
 		// Triangle
 
@@ -132,8 +132,24 @@ public:
 
 	void OnUpdate() override
 	{
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_SPACE))
-			AC_TRACE("Space key is pressed!");
+		if (Acrylic::Input::IsKeyPressed(AC_KEY_W))
+			m_CameraPosition.y += m_CameraMovementSpeed;
+		if (Acrylic::Input::IsKeyPressed(AC_KEY_S))
+			m_CameraPosition.y -= m_CameraMovementSpeed;
+		if (Acrylic::Input::IsKeyPressed(AC_KEY_A))
+			m_CameraPosition.x -= m_CameraMovementSpeed;
+		if (Acrylic::Input::IsKeyPressed(AC_KEY_D))
+			m_CameraPosition.x += m_CameraMovementSpeed;
+
+		if (Acrylic::Input::IsKeyPressed(AC_KEY_Q)) {
+			m_CameraRotation -= m_CameraRotationSpeed;
+		}
+		if (Acrylic::Input::IsKeyPressed(AC_KEY_E)) {
+			m_CameraRotation += m_CameraRotationSpeed;
+		}
+
+		m_MainCamera.SetPosition(m_CameraPosition);
+		m_MainCamera.SetRotation(m_CameraRotation);
 
 		Acrylic::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1 });
 		Acrylic::RenderCommand::Clear();
@@ -155,25 +171,14 @@ public:
 
 	void OnEvent(Acrylic::Event& event) override
 	{
-		if (event.GetEventType() == Acrylic::EventType::KeyPressed) {
-			Acrylic::KeyPressedEvent& e = (Acrylic::KeyPressedEvent&)event;
-			glm::mat4 translate = glm::mat4(0.0f);
-			if (e.GetKeyCode() == AC_KEY_W) {
-				translate += glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, m_CameraSpeed, 0.0f));
-			}
-			if (e.GetKeyCode() == AC_KEY_S) {
-				translate += glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -m_CameraSpeed, 0.0f));
-			}
-			if (e.GetKeyCode() == AC_KEY_A) {
-				translate += glm::translate(glm::mat4(1.0f), glm::vec3(-m_CameraSpeed, 0.0f, 0.0f));
-			}
-			if (e.GetKeyCode() == AC_KEY_D) {
-				translate += glm::translate(glm::mat4(1.0f), glm::vec3(m_CameraSpeed, 0.0f, 0.0f));
-			}
+		//Acrylic::EventDispatcher dispatcher(event);
+		//dispatcher.Dispatch<Acrylic::KeyPressedEvent>(AC_BIND_EVENT_FN(TestLayer::OnKeyPressed));
+	}
 
-			m_MainCamera.SetPosition(translate * glm::vec4(m_MainCamera.GetPosition(), 1.0f));
-			AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
-		}
+	bool OnKeyPressed(Acrylic::KeyPressedEvent& event)
+	{
+		//AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
+		//return false;
 	}
 
 private:
@@ -184,7 +189,10 @@ private:
 	std::shared_ptr<Acrylic::VertexArray> m_SquareVertexArray;
 
 	Acrylic::OrthographicCamera m_MainCamera;
-	float m_CameraSpeed = 0.25f;
+	glm::vec3 m_CameraPosition;
+	float m_CameraMovementSpeed = 0.05f;
+	float m_CameraRotation;
+	float m_CameraRotationSpeed = 1.0f;
 };
 
 
