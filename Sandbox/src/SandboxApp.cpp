@@ -171,14 +171,14 @@ public:
 
 	void OnEvent(Acrylic::Event& event) override
 	{
-		//Acrylic::EventDispatcher dispatcher(event);
-		//dispatcher.Dispatch<Acrylic::KeyPressedEvent>(AC_BIND_EVENT_FN(TestLayer::OnKeyPressed));
+		Acrylic::EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<Acrylic::KeyPressedEvent>(AC_BIND_EVENT_FN(TestLayer::OnKeyPressed));
 	}
 
 	bool OnKeyPressed(Acrylic::KeyPressedEvent& event)
 	{
-		//AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
-		//return false;
+		AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
+		return false;
 	}
 
 private:
