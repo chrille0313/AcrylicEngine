@@ -9,10 +9,6 @@
 
 #include "Acrylic/ImGui/ImGuiLayer.h"
 
-#include "Acrylic/Renderer/Shader.h"
-#include "Acrylic/Renderer/Buffer.h"
-#include "Acrylic/Renderer/VertexArray.h"
-
 
 namespace Acrylic {
 
