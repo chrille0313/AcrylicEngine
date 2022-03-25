@@ -48,13 +48,14 @@ namespace Acrylic {
 			s_GLFWInitialized = true;
 		}
 
+
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
 		m_Context = new OpenGLContext(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
-		SetVSync(true);
+		SetVSync(false);
 
 		// Set GLFW callbacks
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
@@ -161,7 +162,6 @@ namespace Acrylic {
 	void WindowsWindow::SetVSync(bool enabled)
 	{
 		glfwSwapInterval(enabled ? 1 : 0);
-
 		m_Data.VSync = enabled;
 	}
 

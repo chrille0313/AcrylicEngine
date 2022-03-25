@@ -6,6 +6,8 @@
 #include "Acrylic/Layer.h"
 #include "Acrylic/Log.h"
 
+#include "Acrylic/Core/Timestep.h"
+
 #include "Acrylic/Input.h"
 #include "Acrylic/Keycodes.h"
 #include "Acrylic/MouseButtonCodes.h"

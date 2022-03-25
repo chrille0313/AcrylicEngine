@@ -143,6 +143,7 @@
     <ClInclude Include="src\Acrylic.h" />
     <ClInclude Include="src\Acrylic\Application.h" />
     <ClInclude Include="src\Acrylic\Core.h" />
+    <ClInclude Include="src\Acrylic\Core\Timestep.h" />
     <ClInclude Include="src\Acrylic\EntryPoint.h" />
     <ClInclude Include="src\Acrylic\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Acrylic\Events\Event.h" />

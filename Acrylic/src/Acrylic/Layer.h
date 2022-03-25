@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Acrylic/Core.h"
+#include "Acrylic/Core/Timestep.h"
 #include "Acrylic/Events/Event.h"
 
 
@@ -13,7 +14,7 @@ namespace Acrylic {
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep ts) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& event) {}
 

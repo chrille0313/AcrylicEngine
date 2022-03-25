@@ -130,22 +130,24 @@ public:
 		squareShader.reset(new Acrylic::Shader(squareVertexSrc, squareFragmentSrc));
 	}
 
-	void OnUpdate() override
+	void OnUpdate(Acrylic::Timestep ts) override
 	{
+		AC_TRACE("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
+
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_W))
-			m_CameraPosition.y += m_CameraMovementSpeed;
+			m_CameraPosition.y += m_CameraMovementSpeed * ts;
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_S))
-			m_CameraPosition.y -= m_CameraMovementSpeed;
+			m_CameraPosition.y -= m_CameraMovementSpeed * ts;
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_A))
-			m_CameraPosition.x -= m_CameraMovementSpeed;
+			m_CameraPosition.x -= m_CameraMovementSpeed * ts;
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_D))
-			m_CameraPosition.x += m_CameraMovementSpeed;
+			m_CameraPosition.x += m_CameraMovementSpeed * ts;
 
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_Q)) {
-			m_CameraRotation -= m_CameraRotationSpeed;
+			m_CameraRotation -= m_CameraRotationSpeed * ts;
 		}
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_E)) {
-			m_CameraRotation += m_CameraRotationSpeed;
+			m_CameraRotation += m_CameraRotationSpeed * ts;
 		}
 
 		m_MainCamera.SetPosition(m_CameraPosition);
@@ -190,9 +192,9 @@ private:
 
 	Acrylic::OrthographicCamera m_MainCamera;
 	glm::vec3 m_CameraPosition;
-	float m_CameraMovementSpeed = 0.05f;
+	float m_CameraMovementSpeed = 3.0f;
 	float m_CameraRotation;
-	float m_CameraRotationSpeed = 1.0f;
+	float m_CameraRotationSpeed = 90.0f;
 };
 
 
