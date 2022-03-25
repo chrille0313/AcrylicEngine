@@ -1,9 +1,6 @@
 #include <Acrylic.h>
 
 #include "imgui/imgui.h"
-#include "Acrylic/Renderer/Renderer.h"
-
-#include "Acrylic/Renderer/OrthographicCamera.h"
 
 
 class TestLayer : public Acrylic::Layer {
@@ -14,14 +11,14 @@ public:
 
 		m_TriangleVertexArray.reset(Acrylic::VertexArray::Create());
 
-		float vertices[3 * 7] = {
+		float triangleVertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
 			 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
 			 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
 		};
 
 		std::shared_ptr<Acrylic::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Acrylic::VertexBuffer::Create(vertices, sizeof(vertices)));
+		vertexBuffer.reset(Acrylic::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
 
 		Acrylic::BufferLayout layout = {
 			{ Acrylic::ShaderDataType::Float3, "a_Position" },
@@ -33,7 +30,7 @@ public:
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		std::shared_ptr<Acrylic::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Acrylic::IndexBuffer::Create(indices, sizeof(vertices) / sizeof(uint32_t)));
+		indexBuffer.reset(Acrylic::IndexBuffer::Create(indices, sizeof(triangleVertices) / sizeof(uint32_t)));
 		m_TriangleVertexArray->SetIndexBuffer(indexBuffer);
 
 		// Square
@@ -138,8 +135,8 @@ public:
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_SPACE))
 			AC_TRACE("Space key is pressed!");
 
-		//m_MainCamera.SetPosition({ 0.5f, 0.5f, 0.0f });
-		//m_MainCamera.SetRotation(45.0f);
+		Acrylic::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1 });
+		Acrylic::RenderCommand::Clear();
 
 		Acrylic::Renderer::BeginScene(m_MainCamera);
 		{

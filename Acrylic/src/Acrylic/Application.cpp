@@ -55,9 +55,6 @@ namespace Acrylic {
 	void Application::Run()
 	{
 		while (m_Running) {
-			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1 });
-			RenderCommand::Clear();
-
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
 
