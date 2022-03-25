@@ -157,6 +157,7 @@
     <ClInclude Include="src\Acrylic\MouseButtonCodes.h" />
     <ClInclude Include="src\Acrylic\Renderer\Buffer.h" />
     <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Acrylic\Renderer\OrthographicCamera.h" />
     <ClInclude Include="src\Acrylic\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Acrylic\Renderer\Renderer.h" />
     <ClInclude Include="src\Acrylic\Renderer\RendererAPI.h" />
@@ -594,6 +595,7 @@
     <ClCompile Include="src\Acrylic\LayerStack.cpp" />
     <ClCompile Include="src\Acrylic\Log.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\RendererAPI.cpp" />

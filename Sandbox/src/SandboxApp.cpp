@@ -3,19 +3,21 @@
 #include "imgui/imgui.h"
 #include "Acrylic/Renderer/Renderer.h"
 
+#include "Acrylic/Renderer/OrthographicCamera.h"
+
 
 class TestLayer : public Acrylic::Layer {
 public:
-	TestLayer() : Layer("Test")
+	TestLayer() : Layer("Test"), m_MainCamera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		// Triangle
 
-		m_VertexArray.reset(Acrylic::VertexArray::Create());
+		m_TriangleVertexArray.reset(Acrylic::VertexArray::Create());
 
 		float vertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-			0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-			0.0f, 0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+			 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
 		};
 
 		std::shared_ptr<Acrylic::VertexBuffer> vertexBuffer;
@@ -27,12 +29,12 @@ public:
 		};
 
 		vertexBuffer->SetLayout(layout);
-		m_VertexArray->AddVertexBuffer(vertexBuffer);
+		m_TriangleVertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
 		std::shared_ptr<Acrylic::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Acrylic::IndexBuffer::Create(indices, sizeof(vertices) / sizeof(uint32_t)));
-		m_VertexArray->SetIndexBuffer(indexBuffer);
+		m_TriangleVertexArray->SetIndexBuffer(indexBuffer);
 
 		// Square
 
@@ -67,6 +69,8 @@ public:
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 			out vec4 v_Color;
 
@@ -74,7 +78,7 @@ public:
 			{
 				v_Position = a_Position + 0.5;
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -94,19 +98,21 @@ public:
 			}
 		)";
 
-		m_Shader.reset(new Acrylic::Shader(vertexSrc, fragmentSrc));
+		triangleShader.reset(new Acrylic::Shader(vertexSrc, fragmentSrc));
 
 		std::string squareVertexSrc = R"(
 			#version 330 core
 		
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position + 0.5;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -132,14 +138,13 @@ public:
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_SPACE))
 			AC_TRACE("Space key is pressed!");
 
+		//m_MainCamera.SetPosition({ 0.5f, 0.5f, 0.0f });
+		//m_MainCamera.SetRotation(45.0f);
 
-		Acrylic::Renderer::BeginScene();
+		Acrylic::Renderer::BeginScene(m_MainCamera);
 		{
-			squareShader->Bind();
-			Acrylic::Renderer::Submit(m_SquareVertexArray);
-
-			m_Shader->Bind();
-			Acrylic::Renderer::Submit(m_VertexArray);
+			Acrylic::Renderer::Submit(m_SquareVertexArray, squareShader);
+			Acrylic::Renderer::Submit(m_TriangleVertexArray, triangleShader);
 		}
 		Acrylic::Renderer::EndScene();
 	}
@@ -155,16 +160,34 @@ public:
 	{
 		if (event.GetEventType() == Acrylic::EventType::KeyPressed) {
 			Acrylic::KeyPressedEvent& e = (Acrylic::KeyPressedEvent&)event;
-			AC_TRACE("{0}", (char)e.GetKeyCode());
+			glm::mat4 translate = glm::mat4(0.0f);
+			if (e.GetKeyCode() == AC_KEY_W) {
+				translate += glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, m_CameraSpeed, 0.0f));
+			}
+			if (e.GetKeyCode() == AC_KEY_S) {
+				translate += glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, -m_CameraSpeed, 0.0f));
+			}
+			if (e.GetKeyCode() == AC_KEY_A) {
+				translate += glm::translate(glm::mat4(1.0f), glm::vec3(-m_CameraSpeed, 0.0f, 0.0f));
+			}
+			if (e.GetKeyCode() == AC_KEY_D) {
+				translate += glm::translate(glm::mat4(1.0f), glm::vec3(m_CameraSpeed, 0.0f, 0.0f));
+			}
+
+			m_MainCamera.SetPosition(translate * glm::vec4(m_MainCamera.GetPosition(), 1.0f));
+			AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
 		}
 	}
 
 private:
-	std::shared_ptr<Acrylic::Shader> m_Shader;
-	std::shared_ptr<Acrylic::VertexArray> m_VertexArray;
+	std::shared_ptr<Acrylic::Shader> triangleShader;
+	std::shared_ptr<Acrylic::VertexArray> m_TriangleVertexArray;
 
 	std::shared_ptr<Acrylic::Shader> squareShader;
 	std::shared_ptr<Acrylic::VertexArray> m_SquareVertexArray;
+
+	Acrylic::OrthographicCamera m_MainCamera;
+	float m_CameraSpeed = 0.25f;
 };
 
 
