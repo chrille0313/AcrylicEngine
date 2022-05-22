@@ -3,10 +3,15 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
- 
+
 namespace Acrylic {
 
 	Renderer::SceneData* Renderer::m_SceneData = new Renderer::SceneData;
+
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
 
 	void Renderer::BeginScene(OrthographicCamera& camera)
 	{

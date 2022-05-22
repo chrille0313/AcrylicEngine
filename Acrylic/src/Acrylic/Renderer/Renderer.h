@@ -7,8 +7,11 @@
 
 namespace Acrylic {
 
-	class Renderer {
+	class Renderer
+	{
 	public:
+		static void Init();
+
 		static void BeginScene(OrthographicCamera& camera);
 		static void EndScene();
 
@@ -17,7 +20,8 @@ namespace Acrylic {
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
 	private:
-		struct SceneData {
+		struct SceneData
+		{
 			glm::mat4 ViewProjectionMatrix;
 		};
 

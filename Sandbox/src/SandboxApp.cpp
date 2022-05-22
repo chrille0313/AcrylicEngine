@@ -8,7 +8,8 @@
 # include <glm/gtc/type_ptr.hpp>
 
 
-class TestLayer : public Acrylic::Layer {
+class TestLayer : public Acrylic::Layer
+{
 public:
 	TestLayer() : Layer("Test"), m_MainCamera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
 	{
@@ -102,7 +103,7 @@ public:
 			}
 		)";
 
-		triangleShader.reset(Acrylic::Shader::Create(vertexSrc, fragmentSrc));
+		m_TriangleShader = Acrylic::Shader::Create("VertexPosColor", vertexSrc, fragmentSrc);
 
 		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
@@ -137,48 +138,15 @@ public:
 			}
 		)";
 
-		m_FlatColorShader.reset(Acrylic::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+		m_FlatColorShader = Acrylic::Shader::Create("FlatColor", flatColorShaderVertexSrc, flatColorShaderFragmentSrc);
 
-		std::string textureShaderVertexSrc = R"(
-			#version 330 core
-		
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec2 a_TextCoord;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Transform;
-
-			out vec2 v_TextCoord;
-
-			void main()
-			{
-				v_TextCoord = a_TextCoord;
-				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-			}
-
-		)";
-
-		std::string textureShaderFragmentSrc = R"(
-			#version 330 core
-		
-			layout(location = 0) out vec4 color;
-			
-			in vec2 v_TextCoord;
-
-			uniform sampler2D u_Texture;
-
-			void main()
-			{
-				color = texture(u_Texture, v_TextCoord);
-			}
-		)";
-
-		m_TextureShader.reset(Acrylic::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+		auto textureShader = m_ShaderLibrary.Load("assets/shaders/Texture.glsl");
 
 		m_Texture = Acrylic::Texture2D::Create("assets/textures/Checkerboard.png");
+		m_TransparentTexture = Acrylic::Texture2D::Create("assets/textures/moon.png");
 
-		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_TextureShader)->Bind();
-		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
+		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(textureShader)->Bind();
+		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Acrylic::Timestep ts) override
@@ -221,12 +189,16 @@ public:
 					Acrylic::Renderer::Submit(m_SquareVertexArray, m_FlatColorShader, transform);
 				}
 			}
-			
+
+			auto textureShader = m_ShaderLibrary.Get("Texture");
+
 			m_Texture->Bind();
-			Acrylic::Renderer::Submit(m_SquareVertexArray, m_TextureShader, glm::scale(glm::mat4(1.0), glm::vec3(1.5f)));
+			Acrylic::Renderer::Submit(m_SquareVertexArray, textureShader, glm::scale(glm::mat4(1.0), glm::vec3(1.5f)));
+			m_TransparentTexture->Bind();
+			Acrylic::Renderer::Submit(m_SquareVertexArray, textureShader, glm::scale(glm::mat4(1.0), glm::vec3(1.5f)));
 
 			// Triangle 
-			// Acrylic::Renderer::Submit(m_TriangleVertexArray, triangleShader);
+			//Acrylic::Renderer::Submit(m_TriangleVertexArray, m_TriangleShader);
 		}
 		Acrylic::Renderer::EndScene();
 	}
@@ -251,13 +223,16 @@ public:
 	}
 
 private:
-	Acrylic::Ref<Acrylic::Shader> triangleShader;
+	Acrylic::ShaderLibrary m_ShaderLibrary;
+
+	Acrylic::Ref<Acrylic::Shader> m_TriangleShader;
 	Acrylic::Ref<Acrylic::VertexArray> m_TriangleVertexArray;
 
-	Acrylic::Ref<Acrylic::Shader> m_FlatColorShader, m_TextureShader;
+	Acrylic::Ref<Acrylic::Shader> m_FlatColorShader;
 	Acrylic::Ref<Acrylic::VertexArray> m_SquareVertexArray;
 
 	Acrylic::Ref<Acrylic::Texture2D> m_Texture;
+	Acrylic::Ref<Acrylic::Texture2D> m_TransparentTexture;
 
 	Acrylic::OrthographicCamera m_MainCamera;
 	glm::vec3 m_CameraPosition;
@@ -270,7 +245,8 @@ private:
 };
 
 
-class Sandbox : public Acrylic::Application {
+class Sandbox : public Acrylic::Application
+{
 public:
 	Sandbox()
 	{

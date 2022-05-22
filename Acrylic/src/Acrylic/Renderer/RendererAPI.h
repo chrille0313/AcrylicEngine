@@ -7,9 +7,11 @@
 
 namespace Acrylic {
 
-	class RendererAPI {
+	class RendererAPI
+	{
 	public:
-		enum class API {
+		enum class API
+		{
 			None = 0,
 			OpenGL = 1,
 			DirectX = 2,
@@ -17,6 +19,7 @@ namespace Acrylic {
 		};
 
 	public:
+		virtual void Init() = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;
 		virtual void Clear() = 0;
 
