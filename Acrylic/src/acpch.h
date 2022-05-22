@@ -9,6 +9,7 @@
 #include <functional>
 
 #include <string>
+#include <array>
 #include <vector>
 #include <map>
 #include <unordered_map>
