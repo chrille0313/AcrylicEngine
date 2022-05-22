@@ -51,7 +51,7 @@ namespace Acrylic {
 	class EventDispatcher
 	{
 	public:
-		EventDispatcher(Event& event) : m_Event(event)
+		EventDispatcher(Event& e) : m_Event(e)
 		{
 		}
 
