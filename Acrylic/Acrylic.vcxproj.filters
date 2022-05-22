@@ -7,14 +7,23 @@
     <Filter Include="src\Acrylic">
       <UniqueIdentifier>{63DDC487-CF92-3D7D-5887-3754C43B3481}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Acrylic\Core">
+      <UniqueIdentifier>{9BD7BE70-87D0-DDC2-B002-C3479C5ABDCE}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Acrylic\Events">
       <UniqueIdentifier>{E73BF5A0-D31F-B6F6-3C80-B0492883A078}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Acrylic\ImGui">
       <UniqueIdentifier>{CD900489-39A7-021F-821E-8E40EE73D3A6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Acrylic\Renderer">
+      <UniqueIdentifier>{69E02EAA-556F-B873-FE8D-CC6EEAFBC819}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
@@ -40,6 +49,9 @@
     <Filter Include="vendor\glm\glm\gtx">
       <UniqueIdentifier>{B3A6A76B-9F8A-68C1-08EB-6214F4ED5243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vendor\stb_image">
+      <UniqueIdentifier>{0DA0BA59-F998-D9AB-22CB-BE300E23B9B7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Acrylic.h">
@@ -50,6 +62,9 @@
     </ClInclude>
     <ClInclude Include="src\Acrylic\Core.h">
       <Filter>src\Acrylic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\Timestep.h">
+      <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\EntryPoint.h">
       <Filter>src\Acrylic</Filter>
@@ -87,8 +102,53 @@
     <ClInclude Include="src\Acrylic\MouseButtonCodes.h">
       <Filter>src\Acrylic</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Buffer.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\OrthographicCamera.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\RenderCommand.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Renderer.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\RendererAPI.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Shader.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Texture.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\VertexArray.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Acrylic\Window.h">
       <Filter>src\Acrylic</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLShader.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLTexture.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1344,19 +1404,9 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp">
       <Filter>vendor\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
-    <ClInclude Include="src\Acrylic\Renderer\Shader.h" />
-    <ClInclude Include="src\Acrylic\Renderer\Buffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
-    <ClInclude Include="src\Acrylic\Renderer\Renderer.h" />
-    <ClInclude Include="src\Acrylic\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="src\Acrylic\Renderer\RendererAPI.h" />
-    <ClInclude Include="src\Acrylic\Renderer\RenderCommand.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
-    <ClInclude Include="src\Acrylic\Renderer\OrthographicCamera.h" />
-    <ClInclude Include="src\Acrylic\Core\Timestep.h" />
+    <ClInclude Include="vendor\stb_image\stb_image.h">
+      <Filter>vendor\stb_image</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Application.cpp">
@@ -1377,6 +1427,48 @@
     <ClCompile Include="src\Acrylic\Log.cpp">
       <Filter>src\Acrylic</Filter>
     </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\OrthographicCamera.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\RenderCommand.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\Renderer.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\RendererAPI.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\Shader.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\Texture.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\VertexArray.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLShader.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1386,16 +1478,8 @@
     <ClCompile Include="src\acpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\Shader.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\Renderer.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\RendererAPI.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\RenderCommand.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="vendor\stb_image\stb_image.cpp">
+      <Filter>vendor\stb_image</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
