@@ -11,10 +11,9 @@
 class TestLayer : public Acrylic::Layer
 {
 public:
-	TestLayer() : Layer("Test"), m_MainCamera(-1.6f, 1.6f, -0.9f, 0.9f), m_CameraPosition(0.0f), m_CameraRotation(0.0f)
+	TestLayer() : Layer("Test"), m_MainCameraController(1280.0f / 720.0f, true)
 	{
 		// Triangle
-
 		m_TriangleVertexArray.reset(Acrylic::VertexArray::Create());
 
 		float triangleVertices[3 * 7] = {
@@ -39,8 +38,8 @@ public:
 		indexBuffer.reset(Acrylic::IndexBuffer::Create(indices, sizeof(triangleVertices) / sizeof(uint32_t)));
 		m_TriangleVertexArray->SetIndexBuffer(indexBuffer);
 
-		// Square
 
+		// Square
 		m_SquareVertexArray.reset(Acrylic::VertexArray::Create());
 
 		float squareVertices[5 * 4] = {
@@ -153,29 +152,14 @@ public:
 	{
 		//AC_TRACE("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_W))
-			m_CameraPosition.y += m_CameraMovementSpeed * ts;
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_S))
-			m_CameraPosition.y -= m_CameraMovementSpeed * ts;
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_A))
-			m_CameraPosition.x -= m_CameraMovementSpeed * ts;
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_D))
-			m_CameraPosition.x += m_CameraMovementSpeed * ts;
+		// Update
+		m_MainCameraController.OnUpdate(ts);
 
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_Q)) {
-			m_CameraRotation -= m_CameraRotationSpeed * ts;
-		}
-		if (Acrylic::Input::IsKeyPressed(AC_KEY_E)) {
-			m_CameraRotation += m_CameraRotationSpeed * ts;
-		}
-
-		m_MainCamera.SetPosition(m_CameraPosition);
-		m_MainCamera.SetRotation(m_CameraRotation);
-
+		// Render
 		Acrylic::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1 });
 		Acrylic::RenderCommand::Clear();
 
-		Acrylic::Renderer::BeginScene(m_MainCamera);
+		Acrylic::Renderer::BeginScene(m_MainCameraController.GetCamera());
 		{
 			static glm::mat4 scale = glm::scale(glm::mat4(1.0), glm::vec3(0.1f));
 
@@ -210,15 +194,17 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Acrylic::Event& event) override
+	void OnEvent(Acrylic::Event& e) override
 	{
-		Acrylic::EventDispatcher dispatcher(event);
+		Acrylic::EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<Acrylic::KeyPressedEvent>(AC_BIND_EVENT_FN(TestLayer::OnKeyPressed));
+
+		m_MainCameraController.OnEvent(e);
 	}
 
-	bool OnKeyPressed(Acrylic::KeyPressedEvent& event)
+	bool OnKeyPressed(Acrylic::KeyPressedEvent& e)
 	{
-		AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
+		//AC_TRACE("{0}", glm::to_string(m_MainCamera.GetPosition()));
 		return false;
 	}
 
@@ -234,12 +220,7 @@ private:
 	Acrylic::Ref<Acrylic::Texture2D> m_Texture;
 	Acrylic::Ref<Acrylic::Texture2D> m_TransparentTexture;
 
-	Acrylic::OrthographicCamera m_MainCamera;
-	glm::vec3 m_CameraPosition;
-	float m_CameraMovementSpeed = 3.0f;
-
-	float m_CameraRotation;
-	float m_CameraRotationSpeed = 90.0f;
+	Acrylic::OrthographicCameraController m_MainCameraController;
 
 	glm::vec3 m_SquareColor = { 0.2, 0.3f, 0.8f };
 };
@@ -253,7 +234,9 @@ public:
 		PushLayer(new TestLayer());
 	}
 
-	~Sandbox() {}
+	~Sandbox()
+	{
+	}
 };
 
 Acrylic::Application* Acrylic::CreateApplication()

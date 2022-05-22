@@ -1,7 +1,7 @@
 #include "acpch.h"
 #include "WindowsInput.h"
 
-#include "Acrylic/Application.h"
+#include "Acrylic/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 

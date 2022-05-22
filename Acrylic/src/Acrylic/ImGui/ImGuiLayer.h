@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Acrylic/Layer.h"
+#include "Acrylic/Core/Layer.h"
 
 #include "Acrylic/Events/ApplicationEvent.h"
 #include "Acrylic/Events/KeyEvent.h"

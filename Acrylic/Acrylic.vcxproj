@@ -141,21 +141,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Acrylic.h" />
-    <ClInclude Include="src\Acrylic\Application.h" />
-    <ClInclude Include="src\Acrylic\Core.h" />
+    <ClInclude Include="src\Acrylic\Core\Application.h" />
+    <ClInclude Include="src\Acrylic\Core\Core.h" />
+    <ClInclude Include="src\Acrylic\Core\EntryPoint.h" />
+    <ClInclude Include="src\Acrylic\Core\Input.h" />
+    <ClInclude Include="src\Acrylic\Core\Keycodes.h" />
+    <ClInclude Include="src\Acrylic\Core\Layer.h" />
+    <ClInclude Include="src\Acrylic\Core\LayerStack.h" />
+    <ClInclude Include="src\Acrylic\Core\Log.h" />
+    <ClInclude Include="src\Acrylic\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Acrylic\Core\Timestep.h" />
-    <ClInclude Include="src\Acrylic\EntryPoint.h" />
+    <ClInclude Include="src\Acrylic\Core\Window.h" />
     <ClInclude Include="src\Acrylic\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Acrylic\Events\Event.h" />
     <ClInclude Include="src\Acrylic\Events\KeyEvent.h" />
     <ClInclude Include="src\Acrylic\Events\MouseEvent.h" />
     <ClInclude Include="src\Acrylic\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Acrylic\Input.h" />
-    <ClInclude Include="src\Acrylic\Keycodes.h" />
-    <ClInclude Include="src\Acrylic\Layer.h" />
-    <ClInclude Include="src\Acrylic\LayerStack.h" />
-    <ClInclude Include="src\Acrylic\Log.h" />
-    <ClInclude Include="src\Acrylic\MouseButtonCodes.h" />
+    <ClInclude Include="src\Acrylic\OrthographicCameraController.h" />
     <ClInclude Include="src\Acrylic\Renderer\Buffer.h" />
     <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Acrylic\Renderer\OrthographicCamera.h" />
@@ -165,7 +167,6 @@
     <ClInclude Include="src\Acrylic\Renderer\Shader.h" />
     <ClInclude Include="src\Acrylic\Renderer\Texture.h" />
     <ClInclude Include="src\Acrylic\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Acrylic\Window.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
@@ -593,12 +594,13 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Acrylic\Application.cpp" />
+    <ClCompile Include="src\Acrylic\Core\Application.cpp" />
+    <ClCompile Include="src\Acrylic\Core\Layer.cpp" />
+    <ClCompile Include="src\Acrylic\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Acrylic\Core\Log.cpp" />
     <ClCompile Include="src\Acrylic\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Acrylic\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Acrylic\Layer.cpp" />
-    <ClCompile Include="src\Acrylic\LayerStack.cpp" />
-    <ClCompile Include="src\Acrylic\Log.cpp" />
+    <ClCompile Include="src\Acrylic\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\RenderCommand.cpp" />

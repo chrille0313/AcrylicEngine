@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Acrylic/Core.h"
+#include "Acrylic/Core/Core.h"
 #include "Acrylic/Core/Timestep.h"
 #include "Acrylic/Events/Event.h"
 

@@ -57,17 +57,38 @@
     <ClInclude Include="src\Acrylic.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Application.h">
-      <Filter>src\Acrylic</Filter>
+    <ClInclude Include="src\Acrylic\Core\Application.h">
+      <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Core.h">
-      <Filter>src\Acrylic</Filter>
+    <ClInclude Include="src\Acrylic\Core\Core.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\EntryPoint.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\Input.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\Keycodes.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\Layer.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\LayerStack.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\Log.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\MouseButtonCodes.h">
+      <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Core\Timestep.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\EntryPoint.h">
-      <Filter>src\Acrylic</Filter>
+    <ClInclude Include="src\Acrylic\Core\Window.h">
+      <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Events\ApplicationEvent.h">
       <Filter>src\Acrylic\Events</Filter>
@@ -84,22 +105,7 @@
     <ClInclude Include="src\Acrylic\ImGui\ImGuiLayer.h">
       <Filter>src\Acrylic\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Input.h">
-      <Filter>src\Acrylic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Acrylic\Keycodes.h">
-      <Filter>src\Acrylic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Acrylic\Layer.h">
-      <Filter>src\Acrylic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Acrylic\LayerStack.h">
-      <Filter>src\Acrylic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Acrylic\Log.h">
-      <Filter>src\Acrylic</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Acrylic\MouseButtonCodes.h">
+    <ClInclude Include="src\Acrylic\OrthographicCameraController.h">
       <Filter>src\Acrylic</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\Buffer.h">
@@ -128,9 +134,6 @@
     </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\VertexArray.h">
       <Filter>src\Acrylic\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Acrylic\Window.h">
-      <Filter>src\Acrylic</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1409,8 +1412,17 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Acrylic\Application.cpp">
-      <Filter>src\Acrylic</Filter>
+    <ClCompile Include="src\Acrylic\Core\Application.cpp">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Core\Layer.cpp">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Core\LayerStack.cpp">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Core\Log.cpp">
+      <Filter>src\Acrylic\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\ImGui\ImGuiBuild.cpp">
       <Filter>src\Acrylic\ImGui</Filter>
@@ -1418,13 +1430,7 @@
     <ClCompile Include="src\Acrylic\ImGui\ImGuiLayer.cpp">
       <Filter>src\Acrylic\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\Acrylic\Layer.cpp">
-      <Filter>src\Acrylic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Acrylic\LayerStack.cpp">
-      <Filter>src\Acrylic</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Acrylic\Log.cpp">
+    <ClCompile Include="src\Acrylic\OrthographicCameraController.cpp">
       <Filter>src\Acrylic</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp">

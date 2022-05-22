@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Acrylic/Window.h"
+#include "Acrylic/Core/Window.h"
 #include "Acrylic/Renderer/GraphicsContext.h"
 
 #include <GLFW/glfw3.h>

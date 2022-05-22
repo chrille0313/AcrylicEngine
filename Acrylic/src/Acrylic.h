@@ -2,15 +2,15 @@
 
 // For use by Acrylic applications
 
-#include "Acrylic/Application.h"
-#include "Acrylic/Layer.h"
-#include "Acrylic/Log.h"
-
+#include "Acrylic/Core/Application.h"
+#include "Acrylic/Core/Layer.h"
+#include "Acrylic/Core/Log.h"
 #include "Acrylic/Core/Timestep.h"
+#include "Acrylic/Core/Input.h"
+#include "Acrylic/Core/Keycodes.h"
+#include "Acrylic/Core/MouseButtonCodes.h"
 
-#include "Acrylic/Input.h"
-#include "Acrylic/Keycodes.h"
-#include "Acrylic/MouseButtonCodes.h"
+#include "Acrylic/OrthographicCameraController.h"
 
 #include "Acrylic/ImGui/ImGuiLayer.h"
 
@@ -28,5 +28,5 @@
 
 
 // ---------- Entry Point ----------
-#include "Acrylic/EntryPoint.h"
+#include "Acrylic/Core/EntryPoint.h"
 // ---------------------------------
