@@ -20,6 +20,7 @@
 
 #include "Acrylic/Renderer/Buffer.h"
 #include "Acrylic/Renderer/Shader.h"
+#include "Acrylic/Renderer/Texture.h"
 #include "Acrylic/Renderer/VertexArray.h"
 
 #include "Acrylic/Renderer/OrthographicCamera.h"

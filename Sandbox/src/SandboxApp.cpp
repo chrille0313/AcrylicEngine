@@ -1,6 +1,11 @@
 #include <Acrylic.h>
 
+#include "Platform/OpenGL/OpenGLShader.h"
+
 #include "imgui/imgui.h"
+
+#include <glm/gtc/matrix_transform.hpp>
+# include <glm/gtc/type_ptr.hpp>
 
 
 class TestLayer : public Acrylic::Layer {
@@ -17,7 +22,7 @@ public:
 			 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
 		};
 
-		std::shared_ptr<Acrylic::VertexBuffer> vertexBuffer;
+		Acrylic::Ref<Acrylic::VertexBuffer> vertexBuffer;
 		vertexBuffer.reset(Acrylic::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
 
 		Acrylic::BufferLayout layout = {
@@ -29,7 +34,7 @@ public:
 		m_TriangleVertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		std::shared_ptr<Acrylic::IndexBuffer> indexBuffer;
+		Acrylic::Ref<Acrylic::IndexBuffer> indexBuffer;
 		indexBuffer.reset(Acrylic::IndexBuffer::Create(indices, sizeof(triangleVertices) / sizeof(uint32_t)));
 		m_TriangleVertexArray->SetIndexBuffer(indexBuffer);
 
@@ -37,26 +42,27 @@ public:
 
 		m_SquareVertexArray.reset(Acrylic::VertexArray::Create());
 
-		float squareVertices[3 * 4] = {
-			-0.75f, -0.75f, 0.0f,
-			-0.75f,  0.75f, 0.0f,
-			 0.75f,  0.75f, 0.0f,
-			 0.75f, -0.75f, 0.0f
+		float squareVertices[5 * 4] = {
+			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
+			 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+			 0.5f, -0.5f, 0.0f, 1.0f, 0.0f
 		};
 
 
-		std::shared_ptr<Acrylic::VertexBuffer> squareVertexBuffer;
+		Acrylic::Ref<Acrylic::VertexBuffer> squareVertexBuffer;
 		squareVertexBuffer.reset(Acrylic::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
 
 		Acrylic::BufferLayout squareLayout = {
 			{ Acrylic::ShaderDataType::Float3, "a_Position" },
+			{ Acrylic::ShaderDataType::Float2, "a_TextCoord" },
 		};
 
 		squareVertexBuffer->SetLayout(squareLayout);
 		m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
 
 		uint32_t squareIndices[6] = { 0, 3, 1, 1, 3, 2 };
-		std::shared_ptr<Acrylic::IndexBuffer> squareIndexBuffer;
+		Acrylic::Ref<Acrylic::IndexBuffer> squareIndexBuffer;
 		squareIndexBuffer.reset(Acrylic::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
@@ -67,6 +73,7 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 			out vec4 v_Color;
@@ -75,7 +82,7 @@ public:
 			{
 				v_Position = a_Position + 0.5;
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 
 		)";
@@ -95,44 +102,88 @@ public:
 			}
 		)";
 
-		triangleShader.reset(new Acrylic::Shader(vertexSrc, fragmentSrc));
+		triangleShader.reset(Acrylic::Shader::Create(vertexSrc, fragmentSrc));
 
-		std::string squareVertexSrc = R"(
+		std::string flatColorShaderVertexSrc = R"(
 			#version 330 core
 		
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
 
 			out vec3 v_Position;
 
 			void main()
 			{
 				v_Position = a_Position + 0.5;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 			}
 
 		)";
 
-		std::string squareFragmentSrc = R"(
+		std::string flatColorShaderFragmentSrc = R"(
 			#version 330 core
 		
 			layout(location = 0) out vec4 color;
 			
 			in vec3 v_Position;
 
+			uniform vec3 u_Color;
+
 			void main()
 			{
-				color = vec4((v_Position + 1) * 0.5, 1.0);
+				color = vec4(u_Color, 1.0);
 			}
 		)";
 
-		squareShader.reset(new Acrylic::Shader(squareVertexSrc, squareFragmentSrc));
+		m_FlatColorShader.reset(Acrylic::Shader::Create(flatColorShaderVertexSrc, flatColorShaderFragmentSrc));
+
+		std::string textureShaderVertexSrc = R"(
+			#version 330 core
+		
+			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec2 a_TextCoord;
+
+			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Transform;
+
+			out vec2 v_TextCoord;
+
+			void main()
+			{
+				v_TextCoord = a_TextCoord;
+				gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
+			}
+
+		)";
+
+		std::string textureShaderFragmentSrc = R"(
+			#version 330 core
+		
+			layout(location = 0) out vec4 color;
+			
+			in vec2 v_TextCoord;
+
+			uniform sampler2D u_Texture;
+
+			void main()
+			{
+				color = texture(u_Texture, v_TextCoord);
+			}
+		)";
+
+		m_TextureShader.reset(Acrylic::Shader::Create(textureShaderVertexSrc, textureShaderFragmentSrc));
+
+		m_Texture = Acrylic::Texture2D::Create("assets/textures/Checkerboard.png");
+
+		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_TextureShader)->Bind();
+		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_TextureShader)->UploadUniformInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Acrylic::Timestep ts) override
 	{
-		AC_TRACE("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
+		//AC_TRACE("Delta time: {0}s ({1}ms)", ts.GetSeconds(), ts.GetMilliseconds());
 
 		if (Acrylic::Input::IsKeyPressed(AC_KEY_W))
 			m_CameraPosition.y += m_CameraMovementSpeed * ts;
@@ -158,17 +209,33 @@ public:
 
 		Acrylic::Renderer::BeginScene(m_MainCamera);
 		{
-			Acrylic::Renderer::Submit(m_SquareVertexArray, squareShader);
-			Acrylic::Renderer::Submit(m_TriangleVertexArray, triangleShader);
+			static glm::mat4 scale = glm::scale(glm::mat4(1.0), glm::vec3(0.1f));
+
+			std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_FlatColorShader)->Bind();
+			std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+
+			for (int y = 0; y < 20; y++) {
+				for (int x = 0; x < 20; x++) {
+					glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
+					glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * scale;
+					Acrylic::Renderer::Submit(m_SquareVertexArray, m_FlatColorShader, transform);
+				}
+			}
+			
+			m_Texture->Bind();
+			Acrylic::Renderer::Submit(m_SquareVertexArray, m_TextureShader, glm::scale(glm::mat4(1.0), glm::vec3(1.5f)));
+
+			// Triangle 
+			// Acrylic::Renderer::Submit(m_TriangleVertexArray, triangleShader);
 		}
 		Acrylic::Renderer::EndScene();
 	}
 
 	virtual void OnImGuiRender() override
 	{
-		//ImGui::Begin("Test");
-		//ImGui::Text("Hello Wordl!");
-		//ImGui::End();
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Square Color", glm::value_ptr(m_SquareColor));
+		ImGui::End();
 	}
 
 	void OnEvent(Acrylic::Event& event) override
@@ -184,17 +251,22 @@ public:
 	}
 
 private:
-	std::shared_ptr<Acrylic::Shader> triangleShader;
-	std::shared_ptr<Acrylic::VertexArray> m_TriangleVertexArray;
+	Acrylic::Ref<Acrylic::Shader> triangleShader;
+	Acrylic::Ref<Acrylic::VertexArray> m_TriangleVertexArray;
 
-	std::shared_ptr<Acrylic::Shader> squareShader;
-	std::shared_ptr<Acrylic::VertexArray> m_SquareVertexArray;
+	Acrylic::Ref<Acrylic::Shader> m_FlatColorShader, m_TextureShader;
+	Acrylic::Ref<Acrylic::VertexArray> m_SquareVertexArray;
+
+	Acrylic::Ref<Acrylic::Texture2D> m_Texture;
 
 	Acrylic::OrthographicCamera m_MainCamera;
 	glm::vec3 m_CameraPosition;
 	float m_CameraMovementSpeed = 3.0f;
+
 	float m_CameraRotation;
 	float m_CameraRotationSpeed = 90.0f;
+
+	glm::vec3 m_SquareColor = { 0.2, 0.3f, 0.8f };
 };
 
 
