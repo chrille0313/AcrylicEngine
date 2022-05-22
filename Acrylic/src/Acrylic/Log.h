@@ -7,7 +7,8 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API Log {
+	class ACRYLIC_API Log
+	{
 	public:
 		static void Init();
 

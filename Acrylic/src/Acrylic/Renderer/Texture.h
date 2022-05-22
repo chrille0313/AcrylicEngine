@@ -7,7 +7,8 @@
 
 namespace Acrylic {
 
-	class Texture {
+	class Texture
+	{
 	public:
 		virtual ~Texture() = default;
 
@@ -19,7 +20,8 @@ namespace Acrylic {
 
 	};
 
-	class Texture2D : public Texture {
+	class Texture2D : public Texture
+	{
 	public:
 		static Ref<Texture2D> Create(const std::string& path);
 	};

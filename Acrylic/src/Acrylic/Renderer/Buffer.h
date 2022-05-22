@@ -3,7 +3,8 @@
 
 namespace Acrylic {
 
-	enum class ShaderDataType {
+	enum class ShaderDataType
+	{
 		None = 0,
 		Bool,
 		Int,
@@ -49,7 +50,8 @@ namespace Acrylic {
 		return 0;
 	}
 
-	struct BufferElement {
+	struct BufferElement
+	{
 		std::string Name;
 		ShaderDataType Type;
 		uint32_t Size;
@@ -92,7 +94,8 @@ namespace Acrylic {
 		}
 	};
 
-	class BufferLayout {
+	class BufferLayout
+	{
 	public:
 		BufferLayout() {}
 
@@ -127,7 +130,8 @@ namespace Acrylic {
 		uint32_t m_Stride = 0;
 	};
 
-	class VertexBuffer {
+	class VertexBuffer
+	{
 	public:
 		virtual ~VertexBuffer() {}
 
@@ -141,7 +145,8 @@ namespace Acrylic {
 	};
 
 
-	class IndexBuffer {
+	class IndexBuffer
+	{
 	public:
 		virtual ~IndexBuffer() {}
 

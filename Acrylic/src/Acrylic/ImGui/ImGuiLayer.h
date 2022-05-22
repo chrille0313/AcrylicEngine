@@ -9,7 +9,8 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API ImGuiLayer : public Layer {
+	class ACRYLIC_API ImGuiLayer : public Layer
+	{
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();

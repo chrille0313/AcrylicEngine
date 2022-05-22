@@ -6,7 +6,8 @@
 
 namespace Acrylic {
 
-	class VertexArray {
+	class VertexArray
+	{
 	public:
 		virtual ~VertexArray() {}
 

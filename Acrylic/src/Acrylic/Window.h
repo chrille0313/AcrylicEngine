@@ -8,7 +8,8 @@
 
 namespace Acrylic {
 
-	struct WindowProps {
+	struct WindowProps
+	{
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
@@ -18,7 +19,8 @@ namespace Acrylic {
 
 
 	// Interface representing a desktop based Window
-	class ACRYLIC_API Window {
+	class ACRYLIC_API Window
+	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 

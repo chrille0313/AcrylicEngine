@@ -5,7 +5,8 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API Input {
+	class ACRYLIC_API Input
+	{
 	public:
 		inline static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
 

@@ -3,7 +3,8 @@
 
 namespace Acrylic {
 
-	class Timestep {
+	class Timestep
+	{
 	public:
 		Timestep(float time) : m_Time(time) {}
 
