@@ -7,10 +7,7 @@ extern Acrylic::Application* Acrylic::CreateApplication();
 int main(int argc, char** argv)
 {
 	Acrylic::Log::Init();
-	AC_CORE_WARN("Initialized Log!");
-	int a = 5;
-	AC_INFO("DIN MAMMA={0}", a);
-
+	AC_CORE_INFO("Initialized Log!");
 
 	auto app = Acrylic::CreateApplication();
 	app->Run();
