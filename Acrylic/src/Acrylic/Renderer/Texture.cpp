@@ -18,6 +18,7 @@ namespace Acrylic {
 		}
 
 		AC_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
 	}
 
 }
