@@ -1,4 +1,8 @@
 #include <Acrylic.h>
+// ---------- Entry Point ----------
+#include <Acrylic/Core/EntryPoint.h>
+// ---------------------------------
+
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
@@ -8,13 +12,16 @@
 # include <glm/gtc/type_ptr.hpp>
 
 
+#include "Sandbox2D.h"
+
+
 class TestLayer : public Acrylic::Layer
 {
 public:
 	TestLayer() : Layer("Test"), m_MainCameraController(1280.0f / 720.0f, true)
 	{
 		// Triangle
-		m_TriangleVertexArray.reset(Acrylic::VertexArray::Create());
+		m_TriangleVertexArray = Acrylic::VertexArray::Create();
 
 		float triangleVertices[3 * 7] = {
 			-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f,
@@ -40,7 +47,7 @@ public:
 
 
 		// Square
-		m_SquareVertexArray.reset(Acrylic::VertexArray::Create());
+		m_SquareVertexArray = Acrylic::VertexArray::Create();
 
 		float squareVertices[5 * 4] = {
 			-0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -231,7 +238,8 @@ class Sandbox : public Acrylic::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new TestLayer());
+		//PushLayer(new TestLayer());
+		PushLayer(new Sandbox2D);
 	}
 
 	~Sandbox()

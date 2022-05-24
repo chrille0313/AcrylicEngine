@@ -16,6 +16,7 @@
 
 // ---------- Renderer Related ----------
 #include "Acrylic/Renderer/Renderer.h"
+#include "Acrylic/Renderer/Renderer2D.h"
 #include "Acrylic/Renderer/RenderCommand.h"
 
 #include "Acrylic/Renderer/Buffer.h"
@@ -25,8 +26,3 @@
 
 #include "Acrylic/Renderer/OrthographicCamera.h"
 // --------------------------------------
-
-
-// ---------- Entry Point ----------
-#include "Acrylic/Core/EntryPoint.h"
-// ---------------------------------
