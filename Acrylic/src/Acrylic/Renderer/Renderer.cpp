@@ -9,6 +9,8 @@ namespace Acrylic {
 
 	void Renderer::Init()
 	{
+		AC_PROFILE_FUNCTION();
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}

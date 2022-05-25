@@ -156,6 +156,7 @@
     <ClInclude Include="src\Acrylic\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Acrylic\Core\Timestep.h" />
     <ClInclude Include="src\Acrylic\Core\Window.h" />
+    <ClInclude Include="src\Acrylic\Debug\Instrumentor.h" />
     <ClInclude Include="src\Acrylic\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Acrylic\Events\Event.h" />
     <ClInclude Include="src\Acrylic\Events\KeyEvent.h" />

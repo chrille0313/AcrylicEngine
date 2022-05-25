@@ -12,7 +12,7 @@ public:
 	virtual void OnAttach() override;
 	virtual void OnDetach() override;
 
-	void OnUpdate(Acrylic::Timestep ts);
+	void OnUpdate(Acrylic::Timestep ts) override;
 	void OnEvent(Acrylic::Event& e) override;
 	virtual void OnImGuiRender() override;
 

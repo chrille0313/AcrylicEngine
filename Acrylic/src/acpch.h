@@ -17,6 +17,7 @@
 #include <unordered_set>
 
 #include "Acrylic/Core/Log.h"
+#include "Acrylic/Debug/Instrumentor.h"
 
 #ifdef AC_PLATFORM_WINDOWS
 #include <Windows.h>

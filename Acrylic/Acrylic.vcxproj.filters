@@ -123,6 +123,9 @@
     <ClInclude Include="src\Acrylic\Renderer\Renderer.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Renderer2D.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\RendererAPI.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
@@ -1410,7 +1413,7 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Renderer\Renderer2D.h" />
+    <ClInclude Include="src\Acrylic\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp">
@@ -1437,6 +1440,9 @@
     <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\GraphicsContext.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\OrthographicCamera.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
@@ -1444,6 +1450,9 @@
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\Renderer.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\Renderer2D.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\RendererAPI.cpp">
@@ -1488,7 +1497,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Acrylic\Renderer\Renderer2D.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\GraphicsContext.cpp" />
   </ItemGroup>
 </Project>

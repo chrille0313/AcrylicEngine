@@ -16,6 +16,8 @@ namespace Acrylic {
 
 	Application::Application()
 	{
+		AC_PROFILE_FUNCTION();
+
 		AC_CORE_ASSERT(!s_Instance, "Application already exists!");
 		s_Instance = this;
 
@@ -31,29 +33,37 @@ namespace Acrylic {
 
 	Application::~Application()
 	{
+		AC_PROFILE_FUNCTION();
+
 		Renderer::Shutdown();
 	}
 
 	void Application::PushLayer(Layer* layer)
 	{
+		AC_PROFILE_FUNCTION();
+
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
+		AC_PROFILE_FUNCTION();
+
 		m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 	}
 
 	void Application::OnEvent(Event& e)
 	{
+		AC_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(AC_BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(AC_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
-			(*--it)->OnEvent(e);
+		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); it++) {
+			(*it)->OnEvent(e);
 			if (e.Handled)
 				break;
 		}
@@ -61,19 +71,33 @@ namespace Acrylic {
 
 	void Application::Run()
 	{
+		AC_PROFILE_FUNCTION();
+
 		while (m_Running) {
+			AC_PROFILE_SCOPE("RunLoop");
+
 			float time = (float)glfwGetTime();  // Temporary
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
 			if (!m_Minimized) {
-				for (Layer* layer : m_LayerStack)
-					layer->OnUpdate(timestep);
+				{
+					AC_PROFILE_SCOPE("LayerStack OnUpdate");
+
+					for (Layer* layer : m_LayerStack)
+						layer->OnUpdate(timestep);
+				}
+
 			}
 
 			m_ImGuiLayer->Begin();
-			for (Layer* layer : m_LayerStack)
-				layer->OnImGuiRender();
+			{
+				AC_PROFILE_SCOPE("LayerStack OnImGuiRender");
+
+				for (Layer* layer : m_LayerStack)
+					layer->OnImGuiRender();
+			}
+
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
@@ -88,6 +112,8 @@ namespace Acrylic {
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
+		AC_PROFILE_FUNCTION();
+
 		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
 			m_Minimized = true;
 			return false;
