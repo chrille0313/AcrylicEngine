@@ -3,6 +3,8 @@
 !vendor/bin/premake/
 bin-int/
 
+# Acrylic files
+*.log
 
 # Visual Studio files and folder
 .vs/

@@ -601,9 +601,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp" />
+    <ClCompile Include="src\Acrylic\Core\Input.cpp" />
     <ClCompile Include="src\Acrylic\Core\Layer.cpp" />
     <ClCompile Include="src\Acrylic\Core\LayerStack.cpp" />
     <ClCompile Include="src\Acrylic\Core\Log.cpp" />
+    <ClCompile Include="src\Acrylic\Core\Window.cpp" />
     <ClCompile Include="src\Acrylic\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Acrylic\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Acrylic\OrthographicCameraController.cpp" />

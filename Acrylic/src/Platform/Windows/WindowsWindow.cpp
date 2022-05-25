@@ -5,6 +5,8 @@
 #include "Acrylic/Events/MouseEvent.h"
 #include "Acrylic/Events/KeyEvent.h"
 
+#include "Acrylic/Renderer/Renderer.h"
+
 #include "Platform/OpenGL/OpenGLContext.h"
 
 
@@ -15,11 +17,6 @@ namespace Acrylic {
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		AC_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
-	}
-
-	Scope<Window> Window::Create(const WindowProps& props)
-	{
-		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -56,6 +53,11 @@ namespace Acrylic {
 
 		{
 			AC_PROFILE_SCOPE("glfwCreateWindow");
+
+			#ifdef AC_DEBUG
+			if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+			#endif
 
 			m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 			s_GLFWWindowCount++;

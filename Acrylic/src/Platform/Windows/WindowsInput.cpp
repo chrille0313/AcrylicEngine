@@ -7,8 +7,6 @@
 
 namespace Acrylic {
 
-	Scope<Input> Input::s_Instance = CreateScope<WindowsInput>();
-
 	bool WindowsInput::IsKeyPressedImpl(int keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
