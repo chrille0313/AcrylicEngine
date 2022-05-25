@@ -5,7 +5,7 @@
 
 namespace Acrylic {
 
-	class ACRYLIC_API Input
+	class Input
 	{
 	public:
 		Input(const Input&) = delete;

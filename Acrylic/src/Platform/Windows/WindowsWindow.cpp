@@ -1,5 +1,5 @@
 #include "acpch.h"
-#include "WindowsWindow.h"
+#include "Platform/Windows/WindowsWindow.h"
 
 #include "Acrylic/Events/ApplicationEvent.h"
 #include "Acrylic/Events/MouseEvent.h"
@@ -10,16 +10,16 @@
 
 namespace Acrylic {
 
-	static bool s_GLFWInitialized = false;
+	static uint8_t s_GLFWWindowCount = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
 		AC_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -40,18 +40,17 @@ namespace Acrylic {
 
 		AC_CORE_INFO("Creating Window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
-		if (!s_GLFWInitialized) {
-			// TODO: glfTerminate on system shutdown
+		if (s_GLFWWindowCount == 0) {
 			int success = glfwInit();
 			AC_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
-			s_GLFWInitialized = true;
 		}
 
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		s_GLFWWindowCount++;
 
-		m_Context = CreateScope<OpenGLContext>(m_Window);
+		m_Context = OpenGLContext::Create(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -151,6 +150,12 @@ namespace Acrylic {
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(m_Window);
+		s_GLFWWindowCount--;
+
+		if (s_GLFWWindowCount == 0) {
+			glfwTerminate();
+		}
+
 	}
 
 	void WindowsWindow::OnUpdate()

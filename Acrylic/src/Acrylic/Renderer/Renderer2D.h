@@ -1,7 +1,8 @@
 #pragma once
 
-#include "OrthographicCamera.h"
-#include "Texture.h"
+#include "Acrylic/Renderer/OrthographicCamera.h"
+
+#include "Acrylic/Renderer/Texture.h"
 
 
 namespace Acrylic {

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Core.h"
+#include "Acrylic/Core/Core.h"
 
-#include "Window.h"
+#include "Acrylic/Core/Window.h"
 #include "Acrylic/Core/LayerStack.h"
 #include "Acrylic/Events/Event.h"
 #include "Acrylic/Events/ApplicationEvent.h"

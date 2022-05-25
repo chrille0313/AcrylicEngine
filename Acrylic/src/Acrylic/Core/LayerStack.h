@@ -1,15 +1,15 @@
 #pragma once
 
 #include "Acrylic/Core/Core.h"
-#include "Layer.h"
+#include "Acrylic/Core/Layer.h"
 
 
 namespace Acrylic {
 
-	class ACRYLIC_API LayerStack
+	class LayerStack
 	{
 	public:
-		LayerStack();
+		LayerStack() = default;
 		~LayerStack();
 
 		void PushLayer(Layer* layer);

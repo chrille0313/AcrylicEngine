@@ -1,8 +1,8 @@
 #pragma once
 
-#include "RenderCommand.h"
-#include "OrthographicCamera.h"
-#include "Shader.h"
+#include "Acrylic/Renderer/RenderCommand.h"
+#include "Acrylic/Renderer/OrthographicCamera.h"
+#include "Acrylic/Renderer/Shader.h"
 
 
 namespace Acrylic {
@@ -11,6 +11,8 @@ namespace Acrylic {
 	{
 	public:
 		static void Init();
+		static void Shutdown();
+
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
 		static void BeginScene(OrthographicCamera& camera);

@@ -18,8 +18,8 @@ namespace Acrylic {
 	};
 
 
-	// Interface representing a desktop based Window
-	class ACRYLIC_API Window
+	// Interface representing a desktop system based Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
@@ -38,7 +38,7 @@ namespace Acrylic {
 
 		virtual void* GetNativeWindow() const = 0;
 
-		static Window* Create(const WindowProps& props = WindowProps());
+		static Scope<Window> Create(const WindowProps& props = WindowProps());
 	};
 
 }

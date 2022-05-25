@@ -1,10 +1,10 @@
 #include "acpch.h"
-#include "ImGuiLayer.h"
+#include "Acrylic/ImGui/ImGuiLayer.h"
 
-#include "imgui.h"
-#include "backends/imgui_impl_opengl3_loader.h"
-#include "backends/imgui_impl_opengl3.cpp"
-#include "backends/imgui_impl_glfw.cpp"
+#include <imgui.h>
+#include <backends/imgui_impl_opengl3_loader.h>
+#include <backends/imgui_impl_opengl3.cpp>
+#include <backends/imgui_impl_glfw.cpp>
 
 #include "Acrylic/Core/Application.h"
 

@@ -1,7 +1,7 @@
 #include "acpch.h"
-#include "Shader.h"
+#include "Acrylic/Renderer/Shader.h"
 
-#include "Renderer.h"
+#include "Acrylic/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 

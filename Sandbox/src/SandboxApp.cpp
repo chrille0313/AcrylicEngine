@@ -4,9 +4,7 @@
 // ---------------------------------
 
 
-#include "Platform/OpenGL/OpenGLShader.h"
-
-#include "imgui/imgui.h"
+#include <imgui/imgui.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 # include <glm/gtc/type_ptr.hpp>
@@ -29,8 +27,7 @@ public:
 			 0.0f,  0.5f, 0.0f, 1.0f, 1.0f, 0.0f, 1.0f,
 		};
 
-		Acrylic::Ref<Acrylic::VertexBuffer> vertexBuffer;
-		vertexBuffer.reset(Acrylic::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
+		Acrylic::Ref<Acrylic::VertexBuffer> vertexBuffer = Acrylic::VertexBuffer::Create(triangleVertices, sizeof(triangleVertices));
 
 		Acrylic::BufferLayout layout = {
 			{ Acrylic::ShaderDataType::Float3, "a_Position" },
@@ -41,8 +38,7 @@ public:
 		m_TriangleVertexArray->AddVertexBuffer(vertexBuffer);
 
 		uint32_t indices[3] = { 0, 1, 2 };
-		Acrylic::Ref<Acrylic::IndexBuffer> indexBuffer;
-		indexBuffer.reset(Acrylic::IndexBuffer::Create(indices, sizeof(triangleVertices) / sizeof(uint32_t)));
+		Acrylic::Ref<Acrylic::IndexBuffer> indexBuffer = Acrylic::IndexBuffer::Create(indices, sizeof(triangleVertices) / sizeof(uint32_t));
 		m_TriangleVertexArray->SetIndexBuffer(indexBuffer);
 
 
@@ -57,8 +53,7 @@ public:
 		};
 
 
-		Acrylic::Ref<Acrylic::VertexBuffer> squareVertexBuffer;
-		squareVertexBuffer.reset(Acrylic::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Acrylic::Ref<Acrylic::VertexBuffer> squareVertexBuffer = Acrylic::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 
 		Acrylic::BufferLayout squareLayout = {
 			{ Acrylic::ShaderDataType::Float3, "a_Position" },
@@ -69,8 +64,7 @@ public:
 		m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
 
 		uint32_t squareIndices[6] = { 0, 3, 1, 1, 3, 2 };
-		Acrylic::Ref<Acrylic::IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(Acrylic::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Acrylic::Ref<Acrylic::IndexBuffer> squareIndexBuffer = Acrylic::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		m_SquareVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		std::string vertexSrc = R"(
@@ -151,8 +145,8 @@ public:
 		m_Texture = Acrylic::Texture2D::Create("assets/textures/Checkerboard.png");
 		m_TransparentTexture = Acrylic::Texture2D::Create("assets/textures/moon.png");
 
-		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(textureShader)->Bind();
-		std::dynamic_pointer_cast<Acrylic::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
+		textureShader->Bind();
+		textureShader->SetInt("u_Texture", 0);
 	}
 
 	void OnUpdate(Acrylic::Timestep ts) override
@@ -170,8 +164,8 @@ public:
 		{
 			static glm::mat4 scale = glm::scale(glm::mat4(1.0), glm::vec3(0.1f));
 
-			std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_FlatColorShader)->Bind();
-			std::dynamic_pointer_cast<Acrylic::OpenGLShader>(m_FlatColorShader)->UploadUniformFloat3("u_Color", m_SquareColor);
+			m_FlatColorShader->Bind();
+			m_FlatColorShader->SetFloat3("u_Color", m_SquareColor);
 
 			for (int y = 0; y < 20; y++) {
 				for (int x = 0; x < 20; x++) {

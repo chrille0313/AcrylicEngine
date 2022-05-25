@@ -2,6 +2,8 @@
 
 // For use by Acrylic applications
 
+#include "Acrylic/Core/Core.h"
+
 #include "Acrylic/Core/Application.h"
 #include "Acrylic/Core/Layer.h"
 #include "Acrylic/Core/Log.h"

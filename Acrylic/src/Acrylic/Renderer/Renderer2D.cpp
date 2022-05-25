@@ -1,9 +1,9 @@
 #include "acpch.h"
-#include "Renderer2D.h"
+#include "Acrylic/Renderer/Renderer2D.h"
 
-#include "VertexArray.h"
-#include "Shader.h"
-#include "RenderCommand.h"
+#include "Acrylic/Renderer/VertexArray.h"
+#include "Acrylic/Renderer/Shader.h"
+#include "Acrylic/Renderer/RenderCommand.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -33,8 +33,7 @@ namespace Acrylic {
 			-0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
 		};
 
-		Ref<VertexBuffer> squareVertexBuffer;
-		squareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		Ref<VertexBuffer> squareVertexBuffer = VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		BufferLayout squareLayout = {
 			{ ShaderDataType::Float3, "a_Position" },
 			{ ShaderDataType::Float2, "a_TextCoord" }
@@ -44,8 +43,7 @@ namespace Acrylic {
 		s_Data->QuadVertexArray->AddVertexBuffer(squareVertexBuffer);
 
 		uint32_t squareIndices[6] = { 0, 3, 1, 1, 3, 2 };
-		Ref<IndexBuffer> squareIndexBuffer;
-		squareIndexBuffer.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+		Ref<IndexBuffer> squareIndexBuffer = IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t));
 		s_Data->QuadVertexArray->SetIndexBuffer(squareIndexBuffer);
 
 		s_Data->WhiteTexture = Texture2D::Create(1, 1);

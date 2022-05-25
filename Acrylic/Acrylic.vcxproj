@@ -607,6 +607,7 @@
     <ClCompile Include="src\Acrylic\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Acrylic\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\GraphicsContext.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\OrthographicCamera.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Renderer.cpp" />

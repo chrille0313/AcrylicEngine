@@ -1,10 +1,8 @@
 #include "acpch.h"
-#include "LayerStack.h"
+#include "Acrylic/Core/LayerStack.h"
 
 
 namespace Acrylic {
-
-	LayerStack::LayerStack() {}
 
 	LayerStack::~LayerStack()
 	{

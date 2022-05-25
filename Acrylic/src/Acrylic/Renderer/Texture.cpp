@@ -1,7 +1,7 @@
 #include "acpch.h"
-#include "Texture.h"
+#include "Acrylic/Renderer/Texture.h"
 
-#include "Renderer.h"
+#include "Acrylic/Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
 
 
