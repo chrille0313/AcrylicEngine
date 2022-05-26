@@ -20,10 +20,6 @@ private:
 	Acrylic::OrthographicCameraController m_MainCameraController;
 
 
-	// TEMP
-	Acrylic::Ref<Acrylic::VertexArray> m_SquareVertexArray;
-	Acrylic::Ref<Acrylic::Shader> m_FlatColorShader;
-
 	Acrylic::Ref<Acrylic::Texture2D> m_CheckerboardTexture;
 
 	//glm::vec4 m_SquareColor = { 0.2f, 0.3f, 0.8f, 1.0f };
