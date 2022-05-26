@@ -12,7 +12,6 @@ namespace Acrylic {
 																																		-m_ZoomLevel,
 																																		m_ZoomLevel), m_Rotation(rotation)
 	{
-
 	}
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
