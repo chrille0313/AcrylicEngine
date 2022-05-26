@@ -17,7 +17,7 @@ int main(int argc, char** argv)
 	app->Run();
 	AC_PROFILE_END_SESSION();
 
-	AC_PROFILE_BEGIN_SESSION("Startup", "AcrylicProfile-Shutdown.json");
+	AC_PROFILE_BEGIN_SESSION("Shutdown", "AcrylicProfile-Shutdown.json");
 	delete app;
 	AC_PROFILE_END_SESSION();
 }
