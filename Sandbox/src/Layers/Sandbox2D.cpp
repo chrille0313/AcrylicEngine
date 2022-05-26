@@ -38,7 +38,7 @@ void Sandbox2D::OnUpdate(Acrylic::Timestep ts)
 	{
 		AC_PROFILE_SCOPE("Renderer Prep");
 
-		Acrylic::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1 });
+		Acrylic::RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 		Acrylic::RenderCommand::Clear();
 	}
 
