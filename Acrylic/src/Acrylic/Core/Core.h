@@ -60,12 +60,22 @@
 #endif // End of DLL support
 
 #ifdef AC_DEBUG
+#if defined(AC_PLATFORM_WINDOWS)
+#define AC_DEBUGBREAK() __debugbreak()
+#elif defined(AC_PLATFORM_LINUX)
+#include <signal.h>
+#define AC_DEBUGBREAK() raise(SIGTRAP)
+#else
+#error "Platform doesn't support debugbreak yet!"
+#endif
 #define AC_ENABLE_ASSERTS
+#else
+#define AC_DEBUGBREAK()
 #endif
 
 #ifdef AC_ENABLE_ASSERTS
-#define AC_ASSERT(x, ...) { if(!(x)) { AC_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
-#define AC_CORE_ASSERT(x, ...) { if(!(x)) { AC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
+#define AC_ASSERT(x, ...) { if(!(x)) { AC_ERROR("Assertion Failed: {0}", __VA_ARGS__); AC_DEBUGBREAK(); } }
+#define AC_CORE_ASSERT(x, ...) { if(!(x)) { AC_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); AC_DEBUGBREAK(); } }
 #else
 #define AC_ASSERT(x, ...)
 #define AC_CORE_ASSERT(x, ...)
