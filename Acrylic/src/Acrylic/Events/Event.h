@@ -67,7 +67,7 @@ namespace Acrylic {
 		Event& m_Event;
 	};
 
-	inline std::ostream& operator <<(std::ostream& os, const Event& e)
+	std::ostream& operator <<(std::ostream& os, const Event& e)
 	{
 		return os << e.ToString();
 	}
