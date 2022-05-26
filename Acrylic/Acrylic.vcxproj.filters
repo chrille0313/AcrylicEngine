@@ -10,6 +10,9 @@
     <Filter Include="src\Acrylic\Core">
       <UniqueIdentifier>{9BD7BE70-87D0-DDC2-B002-C3479C5ABDCE}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Acrylic\Debug">
+      <UniqueIdentifier>{1926A688-853C-A41E-CEB3-2F403A0975A6}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Acrylic\Events">
       <UniqueIdentifier>{E73BF5A0-D31F-B6F6-3C80-B0492883A078}</UniqueIdentifier>
     </Filter>
@@ -60,7 +63,7 @@
     <ClInclude Include="src\Acrylic\Core\Application.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Core\Core.h">
+    <ClInclude Include="src\Acrylic\Core\Base.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Core\EntryPoint.h">
@@ -89,6 +92,9 @@
     </ClInclude>
     <ClInclude Include="src\Acrylic\Core\Window.h">
       <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Debug\Instrumentor.h">
+      <Filter>src\Acrylic\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Events\ApplicationEvent.h">
       <Filter>src\Acrylic\Events</Filter>
@@ -1413,10 +1419,12 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Debug\Instrumentor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Core\Input.cpp">
       <Filter>src\Acrylic\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\Core\Layer.cpp">
@@ -1426,6 +1434,9 @@
       <Filter>src\Acrylic\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\Core\Log.cpp">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Core\Window.cpp">
       <Filter>src\Acrylic\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Acrylic\ImGui\ImGuiBuild.cpp">
@@ -1497,7 +1508,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Acrylic\Core\Input.cpp" />
-    <ClCompile Include="src\Acrylic\Core\Window.cpp" />
   </ItemGroup>
 </Project>

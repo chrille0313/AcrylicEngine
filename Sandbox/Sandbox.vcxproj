@@ -135,12 +135,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Layers\TestLayer.h" />
     <ClInclude Include="src\Layers\Sandbox2D.h" />
+    <ClInclude Include="src\Layers\TestLayer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Layers\TestLayer.cpp" />
     <ClCompile Include="src\Layers\Sandbox2D.cpp" />
+    <ClCompile Include="src\Layers\TestLayer.cpp" />
     <ClCompile Include="src\SandboxApp.cpp" />
   </ItemGroup>
   <ItemGroup>

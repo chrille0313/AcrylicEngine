@@ -1,5 +1,5 @@
 #pragma once
-#include "Acrylic/Core/Core.h"
+#include "Acrylic/Core/Base.h"
 
 #ifdef AC_PLATFORM_WINDOWS
 

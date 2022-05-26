@@ -21,7 +21,7 @@ namespace Acrylic {
 
 	struct Renderer2DData
 	{
-		static const uint32_t MaxQuadsPerCall = 10000;
+		static const uint32_t MaxQuadsPerCall = 20000;
 		static const uint32_t MaxVerticesPerCall = MaxQuadsPerCall * 4;
 		static const uint32_t MaxIndicesPerCall = MaxQuadsPerCall * 6;
 		static const uint32_t MaxTextureSlots = 32; // TODO: RenderCaps
@@ -89,7 +89,6 @@ namespace Acrylic {
 		s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
 		int32_t samplers[s_Data.MaxTextureSlots];
-
 		for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
 			samplers[i] = i;
 
@@ -108,6 +107,8 @@ namespace Acrylic {
 	void Renderer2D::Shutdown()
 	{
 		AC_PROFILE_FUNCTION();
+
+		delete[] s_Data.QuadVertexBufferBase;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -127,7 +128,7 @@ namespace Acrylic {
 	{
 		AC_PROFILE_FUNCTION();
 
-		auto dataSize = (uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase;
+		uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
 		s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
 
 		Flush();
@@ -135,6 +136,9 @@ namespace Acrylic {
 
 	void Renderer2D::Flush()
 	{
+		if (s_Data.QuadIndexCount == 0)
+			return;
+
 		// Bind Textures
 		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
 			s_Data.TextureSlots[i]->Bind(i);
@@ -164,14 +168,14 @@ namespace Acrylic {
 		DrawQuad(position, rotation, size, s_Data.WhiteTexture, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color, float tilingScale)
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
 	{
 		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, texture, color);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D> texture, const glm::vec4& color, float tilingScale)
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
 	{
-		AC_PROFILE_FUNCTION();
+		//AC_PROFILE_FUNCTION();
 
 		float textureIndex = -1.0f;
 		constexpr glm::vec2 TextureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };

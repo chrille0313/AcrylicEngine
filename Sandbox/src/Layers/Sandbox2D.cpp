@@ -45,24 +45,25 @@ void Sandbox2D::OnUpdate(Acrylic::Timestep ts)
 	{
 		AC_PROFILE_SCOPE("Renderer Draw");
 
+
 		Acrylic::Renderer2D::BeginScene(m_MainCameraController.GetCamera());
 
 		Acrylic::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
 		Acrylic::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.0f, 0.0f, 45.0f }, { 0.5f, 1.0f }, { 0.3f, 0.5f, 0.6f, 1.0f });
 		Acrylic::Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f }, m_CheckerboardTexture, { 1.0f, 1.0f, 1.0f, 1.0f }, 5.0f);
 
-		//Acrylic::Renderer2D::EndScene();
+		Acrylic::Renderer2D::EndScene();
 
-		//Acrylic::Renderer2D::BeginScene(m_MainCameraController.GetCamera());
 
-		for (float y = -5.0f; y < 5.0f; y += 0.1f) {
-			for (float x = -5.0f; x < 5.0f; x += 0.1f) {
-				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.75f };
+		Acrylic::Renderer2D::BeginScene(m_MainCameraController.GetCamera());
+		for (float y = -5.0f; y < 5.0f; y += 0.5f) {
+			for (float x = -5.0f; x < 5.0f; x += 0.5f) {
+				glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
 				Acrylic::Renderer2D::DrawQuad({ x, y }, glm::vec3(0.0f), { 0.45f, 0.45f }, color);
 			}
 		}
-
 		Acrylic::Renderer2D::EndScene();
+
 	}
 
 }

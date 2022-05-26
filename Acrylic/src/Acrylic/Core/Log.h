@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Acrylic/Core/Core.h"
+#include "Acrylic/Core/Base.h"
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
