@@ -21,7 +21,7 @@ namespace Acrylic {
 
 	struct Renderer2DData
 	{
-		static const uint32_t MaxQuadsPerCall = 20000;
+		static const uint32_t MaxQuadsPerCall = 100000;
 		static const uint32_t MaxVerticesPerCall = MaxQuadsPerCall * 4;
 		static const uint32_t MaxIndicesPerCall = MaxQuadsPerCall * 6;
 		static const uint32_t MaxTextureSlots = 32; // TODO: RenderCaps
@@ -175,7 +175,7 @@ namespace Acrylic {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
 	{
-		//AC_PROFILE_FUNCTION();
+		AC_PROFILE_FUNCTION();
 
 		float textureIndex = -1.0f;
 		constexpr glm::vec2 TextureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
@@ -200,17 +200,93 @@ namespace Acrylic {
 		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndicesPerCall)
 			FlushAndReset();
 
-		glm::mat4 transform =
-			glm::translate(glm::mat4(1.0f), position) *
-			glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f }) *
-			glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f }) *
-			glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f }) *
-			glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+
+		glm::mat4 transform = glm::mat4(1.0f);
+
+		if (position.x != 0 || position.y != 0 || position.z != 0) {
+			transform *= glm::translate(glm::mat4(1.0f), position);
+		}
+
+		if (rotation.x != 0 || rotation.y != 0 || rotation.z != 0) {
+			transform *=
+				glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f }) *
+				glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f }) *
+				glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
+		}
+
+		if (size.x != 0 || size.y != 0) {
+			transform *= glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		}
 
 		for (size_t i = 0; i < quadVertexCount; i++) {
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
 			s_Data.QuadVertexBufferPtr->TextureCoord = TextureCoords[i];
+			s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			s_Data.QuadVertexBufferPtr->TilingScale = tilingScale;
+			s_Data.QuadVertexBufferPtr++;
+		}
+
+		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color, float tilingScale)
+	{
+		DrawQuad({ position.x, position.y, 0.0f }, rotation, size, subTexture, color, tilingScale);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color, float tilingScale)
+	{
+		AC_PROFILE_FUNCTION();
+
+		float textureIndex = -1.0f;
+		constexpr size_t quadVertexCount = 4;
+		const glm::vec2* textureCoords = subTexture->GetTextureCords();
+		const Ref<Texture2D> texture = subTexture->GetTexture();
+
+		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) {
+			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == -1.0f) {
+			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+				FlushAndReset();
+
+			textureIndex = (float)s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+			s_Data.TextureSlotIndex++;
+		}
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndicesPerCall)
+			FlushAndReset();
+
+
+		glm::mat4 transform = glm::mat4(1.0f);
+
+		if (position.x != 0 || position.y != 0 || position.z != 0) {
+			transform *= glm::translate(glm::mat4(1.0f), position);
+		}
+
+		if (rotation.x != 0 || rotation.y != 0 || rotation.z != 0) {
+			transform *=
+				glm::rotate(glm::mat4(1.0f), rotation.x, { 1.0f, 0.0f, 0.0f }) *
+				glm::rotate(glm::mat4(1.0f), rotation.y, { 0.0f, 1.0f, 0.0f }) *
+				glm::rotate(glm::mat4(1.0f), rotation.z, { 0.0f, 0.0f, 1.0f });
+		}
+
+		if (size.x != 0 || size.y != 0) {
+			transform *= glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
+		}
+
+		for (size_t i = 0; i < quadVertexCount; i++) {
+			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Color = color;
+			s_Data.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
 			s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingScale = tilingScale;
 			s_Data.QuadVertexBufferPtr++;

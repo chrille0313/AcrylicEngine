@@ -3,6 +3,7 @@
 #include "Acrylic/Renderer/OrthographicCamera.h"
 
 #include "Acrylic/Renderer/Texture.h"
+#include "Acrylic/Renderer/SubTexture2D.h"
 
 
 namespace Acrylic {
@@ -22,6 +23,8 @@ namespace Acrylic {
 		static void DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const glm::vec4& color);
 		static void DrawQuad(const glm::vec2& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f), float tilingScale = 1.0f);
 		static void DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f), float tilingScale = 1.0f);
+		static void DrawQuad(const glm::vec2& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f), float tilingScale = 1.0f);
+		static void DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color = glm::vec4(1.0f), float tilingScale = 1.0f);
 
 		// Stats
 		struct Statistics

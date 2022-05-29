@@ -187,7 +187,7 @@ namespace Acrylic {
 	}
 }
 
-#define AC_PROFILE 1
+#define AC_PROFILE 0
 #if AC_PROFILE
 // Resolve which function signature macro will be used. Note that this only
 	// is resolved when the (pre)compiler starts, so the syntax highlighting

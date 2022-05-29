@@ -171,6 +171,7 @@
     <ClInclude Include="src\Acrylic\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Acrylic\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Acrylic\Renderer\Shader.h" />
+    <ClInclude Include="src\Acrylic\Renderer\SubTexture2D.h" />
     <ClInclude Include="src\Acrylic\Renderer\Texture.h" />
     <ClInclude Include="src\Acrylic\Renderer\VertexArray.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
@@ -617,6 +618,7 @@
     <ClCompile Include="src\Acrylic\Renderer\Renderer2D.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Acrylic\Renderer\SubTexture2D.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\Texture.cpp" />
     <ClCompile Include="src\Acrylic\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
