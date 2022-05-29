@@ -8,9 +8,9 @@ namespace Acrylic {
 	class Input
 	{
 	public:
+		Input(const Input&) = delete;
 		virtual ~Input() = default;
 
-		Input(const Input&) = delete;
 		Input& operator =(const Input&) = delete;
 
 		static bool IsKeyPressed(int keycode) { return s_Instance->IsKeyPressedImpl(keycode); }
