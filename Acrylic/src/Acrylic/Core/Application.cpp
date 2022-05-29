@@ -54,6 +54,11 @@ namespace Acrylic {
 		overlay->OnAttach();
 	}
 
+	void Application::Close()
+	{
+		m_Running = false;
+	}
+
 	void Application::OnEvent(Event& e)
 	{
 		AC_PROFILE_FUNCTION();
@@ -106,7 +111,7 @@ namespace Acrylic {
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
 	{
-		m_Running = false;
+		Close();
 		return true;
 	}
 
