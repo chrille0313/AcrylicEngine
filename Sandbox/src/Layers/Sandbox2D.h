@@ -19,6 +19,10 @@ public:
 private:
 	Acrylic::OrthographicCameraController m_MainCameraController;
 
+	Acrylic::Ref<Acrylic::Framebuffer> m_Framebuffer;
+
+
+	// Textures
 	Acrylic::Ref<Acrylic::Texture2D> m_CheckerboardTexture;
 	Acrylic::Ref<Acrylic::Texture2D> m_SpriteSheetTiles;
 	Acrylic::Ref<Acrylic::Texture2D> m_SpriteSheetBackgrounds;
