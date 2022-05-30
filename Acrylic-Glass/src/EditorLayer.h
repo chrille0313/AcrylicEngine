@@ -20,6 +20,8 @@ namespace Acrylic {
 	private:
 		OrthographicCameraController m_MainCameraController;
 
+		bool m_ViewportFocused = false;
+		bool m_ViewportHovered = false;
 		glm::vec2 m_ViewportSize = { 0, 0 };
 		Ref<Framebuffer> m_Framebuffer;
 
