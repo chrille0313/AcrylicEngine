@@ -29,10 +29,8 @@ namespace Acrylic {
 	class Instrumentor
 	{
 	public:
-		Instrumentor()
-			: m_CurrentSession(nullptr)
-		{
-		}
+		Instrumentor(const Instrumentor&) = default;
+		Instrumentor(Instrumentor&&) = delete;
 
 		void BeginSession(const std::string& name, const std::string& filepath = "results.json")
 		{
@@ -95,6 +93,15 @@ namespace Acrylic {
 		}
 
 	private:
+		Instrumentor() : m_CurrentSession(nullptr)
+		{
+		}
+
+		~Instrumentor()
+		{
+			EndSession();
+		}
+
 		void WriteHeader()
 		{
 			m_OutputStream << "{\"otherData\": {},\"traceEvents\":[{}";
@@ -212,8 +219,10 @@ namespace Acrylic {
 
 #define AC_PROFILE_BEGIN_SESSION(name, filepath) ::Acrylic::Instrumentor::Get().BeginSession(name, filepath)
 #define AC_PROFILE_END_SESSION() ::Acrylic::Instrumentor::Get().EndSession()
-#define AC_PROFILE_SCOPE(name) constexpr auto fixedName = ::Acrylic::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
-									::Acrylic::InstrumentationTimer timer##__LINE__(fixedName.Data)
+#define AC_PROFILE_SCOPE_LINE2(name, line) constexpr auto fixedName##line = ::Acrylic::InstrumentorUtils::CleanupOutputString(name, "__cdecl ");\
+											   ::Acrylic::InstrumentationTimer timer##line(fixedName##line.Data)
+#define AC_PROFILE_SCOPE_LINE(name, line) AC_PROFILE_SCOPE_LINE2(name, line)
+#define AC_PROFILE_SCOPE(name) AC_PROFILE_SCOPE_LINE(name, __LINE__)
 #define AC_PROFILE_FUNCTION() AC_PROFILE_SCOPE(AC_FUNC_SIG)
 #else
 #define AC_PROFILE_BEGIN_SESSION(name, filepath)
