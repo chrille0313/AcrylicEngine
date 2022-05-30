@@ -117,6 +117,9 @@
     <ClInclude Include="src\Acrylic\Renderer\Buffer.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Framebuffer.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
@@ -138,6 +141,9 @@
     <ClInclude Include="src\Acrylic\Renderer\Shader.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\SubTexture2D.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\Texture.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
@@ -148,6 +154,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -1419,9 +1428,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Renderer\SubTexture2D.h" />
-    <ClInclude Include="src\Acrylic\Renderer\Framebuffer.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp">
@@ -1454,6 +1460,9 @@
     <ClCompile Include="src\Acrylic\Renderer\Buffer.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\Framebuffer.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\GraphicsContext.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
@@ -1475,6 +1484,9 @@
     <ClCompile Include="src\Acrylic\Renderer\Shader.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Acrylic\Renderer\SubTexture2D.cpp">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\Texture.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClCompile>
@@ -1485,6 +1497,9 @@
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp">
@@ -1511,8 +1526,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Acrylic\Renderer\SubTexture2D.cpp" />
-    <ClCompile Include="src\Acrylic\Renderer\Framebuffer.cpp" />
-    <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />
   </ItemGroup>
 </Project>

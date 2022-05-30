@@ -16,10 +16,10 @@ int main(int argc, char** argv);
 
 namespace Acrylic {
 
-	class ACRYLIC_API Application
+	class Application
 	{
 	public:
-		Application();
+		Application(const std::string name = "Acrylic App");
 		virtual ~Application();
 
 		void OnEvent(Event& e);
