@@ -175,32 +175,6 @@ namespace Acrylic {
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
 	{
-		AC_PROFILE_FUNCTION();
-
-		float textureIndex = -1.0f;
-		constexpr glm::vec2 TextureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
-		constexpr size_t quadVertexCount = 4;
-
-		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) {
-			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
-				textureIndex = (float)i;
-				break;
-			}
-		}
-
-		if (textureIndex == -1.0f) {
-			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
-				FlushAndReset();
-
-			textureIndex = (float)s_Data.TextureSlotIndex;
-			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
-			s_Data.TextureSlotIndex++;
-		}
-
-		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndicesPerCall)
-			FlushAndReset();
-
-
 		glm::mat4 transform = glm::mat4(1.0f);
 
 		if (position.x != 0 || position.y != 0 || position.z != 0) {
@@ -218,18 +192,7 @@ namespace Acrylic {
 			transform *= glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 		}
 
-		for (size_t i = 0; i < quadVertexCount; i++) {
-			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
-			s_Data.QuadVertexBufferPtr->Color = color;
-			s_Data.QuadVertexBufferPtr->TextureCoord = TextureCoords[i];
-			s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
-			s_Data.QuadVertexBufferPtr->TilingScale = tilingScale;
-			s_Data.QuadVertexBufferPtr++;
-		}
-
-		s_Data.QuadIndexCount += 6;
-
-		s_Data.Stats.QuadCount++;
+		DrawQuad(transform, texture, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec3& rotation, const glm::vec2& size, const Ref<SubTexture2D>& subTexture, const glm::vec4& color, float tilingScale)
@@ -287,6 +250,52 @@ namespace Acrylic {
 			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
 			s_Data.QuadVertexBufferPtr->Color = color;
 			s_Data.QuadVertexBufferPtr->TextureCoord = textureCoords[i];
+			s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
+			s_Data.QuadVertexBufferPtr->TilingScale = tilingScale;
+			s_Data.QuadVertexBufferPtr++;
+		}
+
+		s_Data.QuadIndexCount += 6;
+
+		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	{
+		DrawQuad(transform, s_Data.WhiteTexture);
+	}
+
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
+	{
+		AC_PROFILE_FUNCTION();
+
+		float textureIndex = -1.0f;
+		constexpr glm::vec2 TextureCoords[] = { {0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f} };
+		constexpr size_t quadVertexCount = 4;
+
+		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) {
+			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
+				textureIndex = (float)i;
+				break;
+			}
+		}
+
+		if (textureIndex == -1.0f) {
+			if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
+				FlushAndReset();
+
+			textureIndex = (float)s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+			s_Data.TextureSlotIndex++;
+		}
+
+		if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndicesPerCall)
+			FlushAndReset();
+
+		for (size_t i = 0; i < quadVertexCount; i++) {
+			s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
+			s_Data.QuadVertexBufferPtr->Color = color;
+			s_Data.QuadVertexBufferPtr->TextureCoord = TextureCoords[i];
 			s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingScale = tilingScale;
 			s_Data.QuadVertexBufferPtr++;

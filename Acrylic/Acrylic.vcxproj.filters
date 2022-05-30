@@ -22,6 +22,9 @@
     <Filter Include="src\Acrylic\Renderer">
       <UniqueIdentifier>{69E02EAA-556F-B873-FE8D-CC6EEAFBC819}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Acrylic\Scene">
+      <UniqueIdentifier>{C088B489-2C9F-B21F-7516-3E41E16B83A7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
     </Filter>
@@ -149,6 +152,15 @@
     </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\VertexArray.h">
       <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Scene\Components.h">
+      <Filter>src\Acrylic\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Scene\Entity.h">
+      <Filter>src\Acrylic\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Scene\Scene.h">
+      <Filter>src\Acrylic\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Platform\OpenGL</Filter>
@@ -1486,6 +1498,12 @@
     </ClCompile>
     <ClCompile Include="src\Acrylic\Renderer\VertexArray.cpp">
       <Filter>src\Acrylic\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Scene\Entity.cpp">
+      <Filter>src\Acrylic\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Acrylic\Scene\Scene.cpp">
+      <Filter>src\Acrylic\Scene</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>

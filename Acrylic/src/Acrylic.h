@@ -16,6 +16,14 @@
 
 #include "Acrylic/ImGui/ImGuiLayer.h"
 
+
+// ---------- Scene Related ----------
+#include "Acrylic/Scene/Scene.h"
+#include "Acrylic/Scene/Entity.h"
+#include "Acrylic/Scene/Components.h"
+// --------------------------------------
+
+
 // ---------- Renderer Related ----------
 #include "Acrylic/Renderer/Renderer.h"
 #include "Acrylic/Renderer/Renderer2D.h"

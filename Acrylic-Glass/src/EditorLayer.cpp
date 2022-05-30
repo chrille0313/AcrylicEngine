@@ -4,15 +4,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-static const uint32_t s_MapWidth = 24;
-static const char* s_MapTiles =
-"AAAAAAAAAAAAAAAAAAAAAAAA"
-"AAAAAAAAAAAAAASSAAAAAAAA"
-"GGGGGGGGGGGGGGGGGGGGGGGG"
-"DDDDDDDDDDDDDDDDDDDDDDDD"
-"DDDDDDDDDDDDDDDDDDDDDDDD"
-"DDDDDDDDDDDDDDDDDDDDDDDD"
-;
 
 namespace Acrylic {
 
@@ -26,36 +17,7 @@ namespace Acrylic {
 		AC_PROFILE_FUNCTION();
 
 		// Textures
-
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
-
-		m_SpriteSheetTiles = Texture2D::Create("Game/assets/PixelPlatformer/Sprites/Tilemap/tiles_packed.png");
-		m_SpriteSheetBackgrounds = Texture2D::Create("Game/assets/PixelPlatformer/Sprites/Tilemap/tilemap_packed.png");
-
-		m_MapWidth = s_MapWidth;
-		m_MapHeight = strlen(s_MapTiles) / s_MapWidth;
-
-		m_TextureEmpty = SubTexture2D::CreateFromCoords(m_SpriteSheetBackgrounds, { 2, 0 }, { 24, 24 });
-
-		// Air
-		m_TextureAir = SubTexture2D::CreateFromCoords(m_SpriteSheetBackgrounds, { 0, 1 }, { 24, 24 });
-
-		// Grass
-		m_TextureGrass = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 0, 7 }, { 18, 18 });		// Grass
-		m_TextureGrass01 = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 1, 7 }, { 18, 18 });	// Grass01
-		m_TextureGrass02 = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 2, 7 }, { 18, 18 });	// Grass02
-		m_TextureGrass03 = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 3, 7 }, { 18, 18 });	// Grass03
-
-		// Dirt
-		m_TextureDirt01 = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 1, 2 }, { 18, 18 });
-		m_TextureDirt02 = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 2, 2 }, { 18, 18 });
-		m_TextureDirt03 = SubTexture2D::CreateFromCoords(m_SpriteSheetTiles, { 3, 2 }, { 18, 18 });
-
-
-		// Map textures
-		s_TextureMap['G'] = m_TextureGrass02;
-		s_TextureMap['D'] = m_TextureDirt02;
-		s_TextureMap['A'] = m_TextureAir;
 
 
 		// Framebuffer
@@ -63,6 +25,14 @@ namespace Acrylic {
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
+
+
+		// Scene
+		m_ActiveScene = CreateRef<Scene>();
+
+		// Entities
+		Entity entity = m_ActiveScene->CreateEntity("entity");
+		entity.AddComponent<SpriteRendererComponent>(glm::vec4 { 0.0f, 1.0f, 0.0f, 1.0f });
 	}
 
 	void EditorLayer::OnDetach()
@@ -76,12 +46,13 @@ namespace Acrylic {
 
 		//AC_TRACE("{0} fps: {1}", ts, ts.GetFps());
 
-		// Resize
+		// Resize Framebuffer
 		if (Acrylic::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
 			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_MainCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 		}
+
 
 		// Update
 
@@ -104,26 +75,7 @@ namespace Acrylic {
 
 			Renderer2D::BeginScene(m_MainCameraController.GetCamera());
 
-			//Renderer2D::DrawQuad({ 0.0f, 0.0f, -0.1f }, { 0.0f, 0.0f, 0.0f }, { 5.0f, 5.0f }, m_CheckerboardTexture, { 1.0f, 1.0f, 1.0f, 1.0f }, 5.0f);
-
-			for (uint32_t y = 0; y < m_MapHeight; y++) {
-				for (uint32_t x = 0; x < m_MapWidth; x++) {
-					char tileType = s_MapTiles[x + y * m_MapWidth];
-					Ref<SubTexture2D> texture;
-
-					if (s_TextureMap.find(tileType) != s_TextureMap.end()) {
-						texture = s_TextureMap[tileType];
-					}
-					else {
-						texture = m_TextureEmpty;
-					}
-
-					Renderer2D::DrawQuad({ x - s_MapWidth / 2.0f,  m_MapHeight - y - m_MapHeight / 2.0f, 0.5f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, texture);
-				}
-			}
-
-			Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_TextureGrass02);
-			//Renderer2D::DrawQuad({ 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_TextureDirt01);
+			m_ActiveScene->OnUpdate(ts);
 
 			Renderer2D::EndScene();
 
