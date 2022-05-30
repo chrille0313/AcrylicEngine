@@ -262,7 +262,7 @@ namespace Acrylic {
 
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
 	{
-		DrawQuad(transform, s_Data.WhiteTexture);
+		DrawQuad(transform, s_Data.WhiteTexture, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
