@@ -8,7 +8,7 @@
 namespace Acrylic {
 
 
-	EditorLayer::EditorLayer() : Layer("EditorLayer"), m_MainCameraController(1280.0f / 720.0f, true)
+	EditorLayer::EditorLayer() : Layer("EditorLayer"), m_EditorCameraController(1280.0f / 720.0f, true)
 	{
 	}
 
@@ -33,6 +33,32 @@ namespace Acrylic {
 		// Entities
 		Entity entity = m_ActiveScene->CreateEntity("entity");
 		entity.AddComponent<SpriteRendererComponent>(glm::vec4 { 0.0f, 1.0f, 0.0f, 1.0f });
+
+		m_MainCamera = m_ActiveScene->CreateEntity("MainCamera");
+		m_MainCamera.AddComponent<CameraComponent>();
+		m_MainCamera.GetComponent<CameraComponent>().Primary = true;
+
+		class CameraController : public ScriptableEntity
+		{
+		public:
+			void OnCreate()
+			{
+
+			}
+
+			void OnDestroy()
+			{
+
+			}
+
+			void OnUpdate(Timestep ts)
+			{
+				std::cout << "Timestep: " << ts << std::endl;
+			}
+		};
+
+		m_MainCamera.AddComponent <NativeScriptComponent>().Bind<CameraController>();
+
 	}
 
 	void EditorLayer::OnDetach()
@@ -50,43 +76,40 @@ namespace Acrylic {
 		if (Acrylic::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
 			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
 			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_MainCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+			m_EditorCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 
 		// Update
-
 		if (m_ViewportFocused)
-			m_MainCameraController.OnUpdate(ts);
+			m_EditorCameraController.OnUpdate(ts);
 
 
-		// Render
+		// Render Prep
 		Renderer2D::ResetStats();
 		{
-			AC_PROFILE_SCOPE("Renderer Prep");
+			AC_PROFILE_SCOPE("Render Prep");
+
 			m_Framebuffer->Bind();
 			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 			RenderCommand::Clear();
 		}
 
-		// Draw
+
+		// Render Scene
 		{
-			AC_PROFILE_SCOPE("Renderer Draw");
-
-			Renderer2D::BeginScene(m_MainCameraController.GetCamera());
-
+			AC_PROFILE_SCOPE("Render Scene");
 			m_ActiveScene->OnUpdate(ts);
-
-			Renderer2D::EndScene();
-
-			m_Framebuffer->Unbind();
 		}
 
+		m_Framebuffer->Unbind();
 	}
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		m_MainCameraController.OnEvent(e);
+		m_EditorCameraController.OnEvent(e);
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -167,7 +190,7 @@ namespace Acrylic {
 
 		auto stats = Renderer2D::GetStats();
 
-		ImGui::Begin("Settings");
+		ImGui::Begin("Debug");
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
 		ImGui::Text("Quads: %d", stats.QuadCount);

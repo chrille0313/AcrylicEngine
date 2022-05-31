@@ -1437,6 +1437,9 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Camera.h" />
+    <ClInclude Include="src\Acrylic\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Acrylic\Scene\ScriptableEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp">
@@ -1538,5 +1541,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Acrylic\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

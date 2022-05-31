@@ -2,6 +2,9 @@
 
 #include <glm/glm.hpp>
 
+#include "Acrylic/Scene/SceneCamera.h"
+#include "Acrylic/Scene/ScriptableEntity.h"
+
 
 namespace Acrylic {
 
@@ -41,4 +44,29 @@ namespace Acrylic {
 		}
 	};
 
+	struct CameraComponent
+	{
+		SceneCamera Camera;
+		bool Primary = false;
+		bool FixedAspectRatio = false;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+	};
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+
+		ScriptableEntity* (*InstantiateScript)();
+		void(*DestroyScript)(NativeScriptComponent*);
+
+		template<typename T>
+		void Bind()
+		{
+			InstantiateScript = []() { return static_cast<ScriptableEntity*>(new T()); };
+			DestroyScript = [](NativeScriptComponent* nativeScriptComponent) { delete nativeScriptComponent->Instance; nativeScriptComponent->Instance = nullptr; };
+		}
+	};
 }

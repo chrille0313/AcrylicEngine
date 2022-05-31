@@ -20,6 +20,7 @@
 // ---------- Scene Related ----------
 #include "Acrylic/Scene/Scene.h"
 #include "Acrylic/Scene/Entity.h"
+#include "Acrylic/Scene/ScriptableEntity.h"
 #include "Acrylic/Scene/Components.h"
 // --------------------------------------
 

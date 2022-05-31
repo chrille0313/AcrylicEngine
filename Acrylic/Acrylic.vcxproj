@@ -164,6 +164,7 @@
     <ClInclude Include="src\Acrylic\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\Acrylic\OrthographicCameraController.h" />
     <ClInclude Include="src\Acrylic\Renderer\Buffer.h" />
+    <ClInclude Include="src\Acrylic\Renderer\Camera.h" />
     <ClInclude Include="src\Acrylic\Renderer\Framebuffer.h" />
     <ClInclude Include="src\Acrylic\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Acrylic\Renderer\OrthographicCamera.h" />
@@ -178,6 +179,8 @@
     <ClInclude Include="src\Acrylic\Scene\Components.h" />
     <ClInclude Include="src\Acrylic\Scene\Entity.h" />
     <ClInclude Include="src\Acrylic\Scene\Scene.h" />
+    <ClInclude Include="src\Acrylic\Scene\SceneCamera.h" />
+    <ClInclude Include="src\Acrylic\Scene\ScriptableEntity.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Platform\OpenGL\OpenGLFramebuffer.h" />
@@ -627,6 +630,7 @@
     <ClCompile Include="src\Acrylic\Renderer\VertexArray.cpp" />
     <ClCompile Include="src\Acrylic\Scene\Entity.cpp" />
     <ClCompile Include="src\Acrylic\Scene\Scene.cpp" />
+    <ClCompile Include="src\Acrylic\Scene\SceneCamera.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Platform\OpenGL\OpenGLFramebuffer.cpp" />

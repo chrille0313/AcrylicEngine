@@ -18,7 +18,7 @@ namespace Acrylic {
 		virtual void OnImGuiRender() override;
 
 	private:
-		OrthographicCameraController m_MainCameraController;
+		OrthographicCameraController m_EditorCameraController;
 
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;
@@ -28,6 +28,10 @@ namespace Acrylic {
 
 		// Scene
 		Ref<Scene> m_ActiveScene;
+
+
+		// Entities
+		Entity m_MainCamera;
 
 
 		// Textures

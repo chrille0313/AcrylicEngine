@@ -23,7 +23,7 @@ namespace Acrylic {
 			m_Scene->m_Registry.any_of<T>(m_EntityHandle);
 		}
 
-		template<typename T, typename>
+		template<typename T>
 		T& GetComponent()
 		{
 			AC_CORE_ASSERT(HasComponent<T>(), "Entity doesn't have the provided component!");
@@ -37,7 +37,7 @@ namespace Acrylic {
 			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
-		template<typename T, typename>
+		template<typename T>
 		T& RemoveComponent()
 		{
 			AC_CORE_ASSERT(HasComponent<T>(), "Entity doesn't have the provided component!");
