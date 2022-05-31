@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "Acrylic/Scene/SceneCamera.h"
 #include "Acrylic/Scene/ScriptableEntity.h"
@@ -21,16 +22,37 @@ namespace Acrylic {
 
 	struct TransformComponent
 	{
-		glm::mat4 Transform { 1.0f };
+		glm::vec3 Position = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
 
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::mat4& transform) : Transform(transform)
+		TransformComponent(const glm::vec3& position) : Position(position)
 		{
 		}
 
-		operator glm::mat4& () { return Transform; }
-		operator const glm::mat4& () const { return Transform; }
+		glm::mat4 GetTransform() const
+		{
+			glm::mat4 transform = glm::mat4(1.0f);
+
+			if (Position.x != 0 || Position.y != 0 || Position.z != 0) {
+				transform *= glm::translate(glm::mat4(1.0f), Position);
+			}
+
+			if (Rotation.x != 0 || Rotation.y != 0 || Rotation.z != 0) {
+				transform *=
+					glm::rotate(glm::mat4(1.0f), Rotation.x, { 1.0f, 0.0f, 0.0f }) *
+					glm::rotate(glm::mat4(1.0f), Rotation.y, { 0.0f, 1.0f, 0.0f }) *
+					glm::rotate(glm::mat4(1.0f), Rotation.z, { 0.0f, 0.0f, 1.0f });
+			}
+
+			if (Scale.x != 0 || Scale.y != 0) {
+				transform *= glm::scale(glm::mat4(1.0f), Scale);
+			}
+
+			return transform;
+		}
 	};
 
 	struct SpriteRendererComponent
