@@ -18,7 +18,6 @@ namespace Acrylic {
 
 	Scene::~Scene()
 	{
-
 	}
 
 	Entity Scene::CreateEntity(const std::string& name)
@@ -33,11 +32,66 @@ namespace Acrylic {
 
 	void Scene::OnUpdate(Timestep ts)
 	{
-		auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+		// Update Scripts
+		{
+			m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nativeScriptComponent)
+														  {
+															  if (!nativeScriptComponent.Instance) {
+																  nativeScriptComponent.Instance = nativeScriptComponent.InstantiateScript();
+																  nativeScriptComponent.Instance->m_Entity = Entity { entity, this };
+																  nativeScriptComponent.Instance->OnCreate();
+															  }
 
-		for (auto entity : group) {
-			auto& [transform, spriteRenderer] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform, spriteRenderer.Color);
+															  nativeScriptComponent.Instance->OnUpdate(ts);
+														  });
+		}
+
+
+		// Render 2D
+		Camera* mainCamera = nullptr;
+		glm::mat4* cameraTransform = nullptr;
+		{
+			auto group = m_Registry.group<CameraComponent>(entt::get<TransformComponent>);
+
+			for (auto entity : group) {
+				auto [camera, transform] = group.get<CameraComponent, TransformComponent>(entity);
+
+				if (camera.Primary) {
+					mainCamera = &camera.Camera;
+					cameraTransform = &transform.Transform;
+					break;
+				}
+			}
+		}
+
+		{
+			if (mainCamera) {
+				Renderer2D::BeginScene(mainCamera->GetProjection(), *cameraTransform);
+
+				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+
+				for (auto entity : group) {
+					auto [transform, spriteRenderer] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+					Renderer2D::DrawQuad(transform, spriteRenderer.Color);
+				}
+
+				Renderer2D::EndScene();
+			}
+		}
+
+	}
+
+	void Scene::OnViewportResize(uint32_t width, uint32_t height)
+	{
+		m_ViewportWidth = width;
+		m_ViewportHeight = height;
+
+		auto view = m_Registry.view<CameraComponent>();
+		for (auto entity : view) {
+			auto& cameraComponent = view.get<CameraComponent>(entity);
+
+			if (!cameraComponent.FixedAspectRatio)
+				cameraComponent.Camera.SetViewportSize(width, height);
 		}
 	}
 
