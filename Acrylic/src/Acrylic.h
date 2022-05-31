@@ -10,7 +10,7 @@
 #include "Acrylic/Core/Timestep.h"
 #include "Acrylic/Core/Input.h"
 #include "Acrylic/Core/Keycodes.h"
-#include "Acrylic/Core/MouseButtonCodes.h"
+#include "Acrylic/Core/MouseCodes.h"
 
 #include "Acrylic/OrthographicCameraController.h"
 

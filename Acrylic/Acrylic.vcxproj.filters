@@ -87,9 +87,6 @@
     <ClInclude Include="src\Acrylic\Core\Log.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Core\MouseButtonCodes.h">
-      <Filter>src\Acrylic\Core</Filter>
-    </ClInclude>
     <ClInclude Include="src\Acrylic\Core\Timestep.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
@@ -1440,6 +1437,8 @@
     <ClInclude Include="src\Acrylic\Renderer\Camera.h" />
     <ClInclude Include="src\Acrylic\Scene\SceneCamera.h" />
     <ClInclude Include="src\Acrylic\Scene\ScriptableEntity.h" />
+    <ClInclude Include="src\Acrylic\Core\PlatformDetection.h" />
+    <ClInclude Include="src\Acrylic\Core\MouseCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp">

@@ -67,7 +67,6 @@ namespace Acrylic {
 				result.resize(size);
 				in.seekg(0, std::ios::beg);
 				in.read(&result[0], size);
-				in.close();
 			}
 			else {
 				AC_CORE_ERROR("Could not read from file '{0}'", filePath);

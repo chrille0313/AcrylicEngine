@@ -153,7 +153,8 @@
     <ClInclude Include="src\Acrylic\Core\Layer.h" />
     <ClInclude Include="src\Acrylic\Core\LayerStack.h" />
     <ClInclude Include="src\Acrylic\Core\Log.h" />
-    <ClInclude Include="src\Acrylic\Core\MouseButtonCodes.h" />
+    <ClInclude Include="src\Acrylic\Core\MouseCodes.h" />
+    <ClInclude Include="src\Acrylic\Core\PlatformDetection.h" />
     <ClInclude Include="src\Acrylic\Core\Timestep.h" />
     <ClInclude Include="src\Acrylic\Core\Window.h" />
     <ClInclude Include="src\Acrylic\Debug\Instrumentor.h" />

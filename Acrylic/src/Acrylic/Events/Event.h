@@ -1,6 +1,8 @@
 #pragma once
 
-#include "acpch.h"
+#include <functional>
+
+#include "Acrylic/Debug/Instrumentor.h"
 #include "Acrylic/Core/Base.h"
 
 

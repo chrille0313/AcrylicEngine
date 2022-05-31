@@ -1,5 +1,13 @@
 #pragma once
 
+#include "Acrylic/Core/PlatformDetection.h"
+
+#ifdef AC_PLATFORM_WINDOWS
+#ifndef NOINMAX
+//github.com/skypjack/entt/wiki/Frequently-Asked-Questions#warning-c4003-the-min-the-max-and-the-macro
+#define NOINMAX
+#endif
+#endif
 
 #include <iostream>
 #include <sstream>

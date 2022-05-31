@@ -225,7 +225,7 @@ namespace Acrylic {
 		const Ref<Texture2D> texture = subTexture->GetTexture();
 
 		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) {
-			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
+			if (*s_Data.TextureSlots[i] == *texture) {
 				textureIndex = (float)i;
 				break;
 			}
@@ -289,7 +289,7 @@ namespace Acrylic {
 		constexpr size_t quadVertexCount = 4;
 
 		for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++) {
-			if (*s_Data.TextureSlots[i].get() == *texture.get()) {
+			if (*s_Data.TextureSlots[i] == *texture) {
 				textureIndex = (float)i;
 				break;
 			}

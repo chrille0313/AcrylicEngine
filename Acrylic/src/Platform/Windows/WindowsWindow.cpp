@@ -1,6 +1,8 @@
 #include "acpch.h"
 #include "Platform/Windows/WindowsWindow.h"
 
+#include "Acrylic/Core/Input.h"
+
 #include "Acrylic/Events/ApplicationEvent.h"
 #include "Acrylic/Events/MouseEvent.h"
 #include "Acrylic/Events/KeyEvent.h"
