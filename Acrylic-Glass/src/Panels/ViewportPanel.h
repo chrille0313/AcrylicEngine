@@ -23,8 +23,8 @@ namespace Acrylic {
 
 		Ref<Framebuffer> GetFramebuffer() { return m_Framebuffer; }
 
-		bool IsHovered() { return m_ViewportHovered; }
-		bool IsFocused() { return m_ViewportFocused; }
+		bool IsHovered() const { return m_ViewportHovered; }
+		bool IsFocused() const { return m_ViewportFocused; }
 
 	protected:
 		void OnImGuiRenderInternal() override;

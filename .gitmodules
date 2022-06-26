@@ -1,12 +1,12 @@
 [submodule "Acrylic/vendor/spdlog"]
 	path = Acrylic/vendor/spdlog
-	url = https://github.com/gabime/spdlog
+	url = ../../gabime/spdlog.git
 [submodule "Acrylic/vendor/GLFW"]
 	path = Acrylic/vendor/GLFW
-	url = https://github.com/TheCherno/GLFW
+	url = ../../TheCherno/glfw.git
 [submodule "Acrylic/vendor/imgui"]
 	path = Acrylic/vendor/imgui
-	url = https://github.com/TheCherno/imgui
+	url = ../../TheCherno/imgui.git
 [submodule "Acrylic/vendor/glm"]
 	path = Acrylic/vendor/glm
-	url = https://github.com/g-truc/glm
+	url = ../../g-truc/glm.git

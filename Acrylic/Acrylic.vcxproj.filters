@@ -66,6 +66,9 @@
     <ClInclude Include="src\Acrylic\Core\Application.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\Assert.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\Acrylic\Core\Base.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
@@ -85,6 +88,12 @@
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Core\Log.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\MouseCodes.h">
+      <Filter>src\Acrylic\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Core\PlatformDetection.h">
       <Filter>src\Acrylic\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Core\Timestep.h">
@@ -115,6 +124,9 @@
       <Filter>src\Acrylic</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\Buffer.h">
+      <Filter>src\Acrylic\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Renderer\Camera.h">
       <Filter>src\Acrylic\Renderer</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Renderer\Framebuffer.h">
@@ -157,6 +169,12 @@
       <Filter>src\Acrylic\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Acrylic\Scene\Scene.h">
+      <Filter>src\Acrylic\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Scene\SceneCamera.h">
+      <Filter>src\Acrylic\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Acrylic\Scene\ScriptableEntity.h">
       <Filter>src\Acrylic\Scene</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
@@ -1434,11 +1452,6 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Acrylic\Renderer\Camera.h" />
-    <ClInclude Include="src\Acrylic\Scene\SceneCamera.h" />
-    <ClInclude Include="src\Acrylic\Scene\ScriptableEntity.h" />
-    <ClInclude Include="src\Acrylic\Core\PlatformDetection.h" />
-    <ClInclude Include="src\Acrylic\Core\MouseCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Acrylic\Core\Application.cpp">
@@ -1507,6 +1520,9 @@
     <ClCompile Include="src\Acrylic\Scene\Scene.cpp">
       <Filter>src\Acrylic\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="src\Acrylic\Scene\SceneCamera.cpp">
+      <Filter>src\Acrylic\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Platform\OpenGL</Filter>
     </ClCompile>
@@ -1540,6 +1556,5 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Acrylic\Scene\SceneCamera.cpp" />
   </ItemGroup>
 </Project>

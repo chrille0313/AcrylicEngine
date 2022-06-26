@@ -53,7 +53,7 @@ namespace Acrylic {
 
 		// Render 2D
 		Camera* mainCamera = nullptr;
-		glm::mat4 cameraTransform;
+		glm::mat4* cameraTransform;
 		{
 			auto group = m_Registry.group<CameraComponent>(entt::get<TransformComponent>);
 
@@ -62,7 +62,7 @@ namespace Acrylic {
 
 				if (camera.Primary) {
 					mainCamera = &camera.Camera;
-					cameraTransform = transform.GetTransform();
+					cameraTransform = &transform.GetTransform();
 					break;
 				}
 			}
@@ -70,7 +70,7 @@ namespace Acrylic {
 
 		{
 			if (mainCamera) {
-				Renderer2D::BeginScene(mainCamera->GetProjection(), cameraTransform);
+				Renderer2D::BeginScene(*mainCamera, *cameraTransform);
 
 				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 

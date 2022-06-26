@@ -4,7 +4,6 @@
 
 #include "Acrylic/Scene/Scene.h"
 #include "Acrylic/Core/Base.h"
-#include "Acrylic/Core/Log.h"
 #include "Acrylic/Scene/Entity.h"
 
 

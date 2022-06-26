@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\Acrylic.h" />
     <ClInclude Include="src\Acrylic\Core\Application.h" />
+    <ClInclude Include="src\Acrylic\Core\Assert.h" />
     <ClInclude Include="src\Acrylic\Core\Base.h" />
     <ClInclude Include="src\Acrylic\Core\EntryPoint.h" />
     <ClInclude Include="src\Acrylic\Core\Input.h" />
