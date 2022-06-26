@@ -7,7 +7,6 @@
 
 namespace Acrylic {
 
-
 	EditorLayer::EditorLayer() : Layer("EditorLayer"), m_EditorCameraController(1280.0f / 720.0f, true)
 	{
 	}
@@ -20,24 +19,19 @@ namespace Acrylic {
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
 
-		// Framebuffer
-		FramebufferSpecification fbSpec;
-		fbSpec.Width = 1280;
-		fbSpec.Height = 720;
-		m_Framebuffer = Framebuffer::Create(fbSpec);
-
-
 		// Scene
 		m_ActiveScene = CreateRef<Scene>();
 
+
 		// Entities
-		Entity entity = m_ActiveScene->CreateEntity("entity");
+		Entity entity = m_ActiveScene->CreateEntity("Square Entity");
 		entity.AddComponent<SpriteRendererComponent>(glm::vec4 { 0.0f, 1.0f, 0.0f, 1.0f });
 
 		m_MainCamera = m_ActiveScene->CreateEntity("MainCamera");
 		m_MainCamera.AddComponent<CameraComponent>();
 		m_MainCamera.GetComponent<CameraComponent>().Primary = true;
 
+		/*
 		class CameraController : public ScriptableEntity
 		{
 		public:
@@ -58,7 +52,13 @@ namespace Acrylic {
 		};
 
 		m_MainCamera.AddComponent <NativeScriptComponent>().Bind<CameraController>();
+		*/
 
+		FramebufferSpecification fbSpec;
+		fbSpec.Width = 1280;
+		fbSpec.Height = 720;
+		m_ViewportPanel.SetFramebuffer(fbSpec);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
 	void EditorLayer::OnDetach()
@@ -72,18 +72,20 @@ namespace Acrylic {
 
 		//AC_TRACE("{0} fps: {1}", ts, ts.GetFps());
 
-		// Resize Framebuffer
-		if (Acrylic::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
-			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
-			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-			m_EditorCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
 
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+		// Resize Framebuffer
+		if (Acrylic::FramebufferSpecification spec = m_ViewportPanel.GetFramebuffer()->GetSpecification();
+			m_ViewportPanel.m_ViewportSize.x > 0.0f && m_ViewportPanel.m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportPanel.m_ViewportSize.x || spec.Height != m_ViewportPanel.m_ViewportSize.y)) {
+
+			m_ViewportPanel.GetFramebuffer()->Resize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
+			m_EditorCameraController.OnResize(m_ViewportPanel.m_ViewportSize.x, m_ViewportPanel.m_ViewportSize.y);
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
 		}
 
 
+
 		// Update
-		if (m_ViewportFocused)
+		if (m_ViewportPanel.IsFocused())
 			m_EditorCameraController.OnUpdate(ts);
 
 
@@ -92,7 +94,7 @@ namespace Acrylic {
 		{
 			AC_PROFILE_SCOPE("Render Prep");
 
-			m_Framebuffer->Bind();
+			m_ViewportPanel.m_Framebuffer->Bind();
 			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 			RenderCommand::Clear();
 		}
@@ -104,7 +106,7 @@ namespace Acrylic {
 			m_ActiveScene->OnUpdate(ts);
 		}
 
-		m_Framebuffer->Unbind();
+		m_ViewportPanel.m_Framebuffer->Unbind();
 	}
 
 	void EditorLayer::OnEvent(Event& e)
@@ -170,12 +172,22 @@ namespace Acrylic {
 		if (opt_fullscreen)
 			ImGui::PopStyleVar(2);
 
-		// Submit the DockSpace
+
 		ImGuiIO& io = ImGui::GetIO();
+		ImGuiStyle& style = ImGui::GetStyle();
+
+		float minWindowWidth = style.WindowMinSize.x;
+		style.WindowMinSize.x = 350.0f;
+
 		if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
 			ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 			ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockspace_flags);
 		}
+
+		style.WindowMinSize.x = minWindowWidth;
+
+
+		// TOP MENU BAR
 
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
@@ -188,8 +200,27 @@ namespace Acrylic {
 			ImGui::EndMenuBar();
 		}
 
-		auto stats = Renderer2D::GetStats();
+		// END TOP MENU BAR
 
+
+		// PANELS
+		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
+
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2 { 0, 0 });
+		m_ViewportPanel.OnImGuiRender("Viewport", windowFlags);
+		ImGui::PopStyleVar();
+
+		m_SceneHierarchyPanel.OnImGuiRender("SceneHierarchy", windowFlags);
+
+		// END PANELS
+
+
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportPanel.IsFocused() || !m_ViewportPanel.IsHovered());
+
+
+		// DEBUG
+
+		auto stats = Renderer2D::GetStats();
 		ImGui::Begin("Debug");
 		ImGui::Text("Renderer2D Stats:");
 		ImGui::Text("Draw Calls: %d", stats.DrawCalls);
@@ -198,23 +229,13 @@ namespace Acrylic {
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 		ImGui::End();
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2 { 0, 0 });
-		ImGui::Begin("Viewport");
 
-		m_ViewportFocused = ImGui::IsWindowFocused();
-		m_ViewportHovered = ImGui::IsWindowHovered();
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused || !m_ViewportHovered);
+		// END DEBUG
 
-		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
-		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2 { m_ViewportSize.x, m_ViewportSize.y }, ImVec2 { 0,1 }, ImVec2 { 1,0 });
+		ImGui::End();  // End Dockspace
 
-		ImGui::End();
-		ImGui::PopStyleVar();
-
-		ImGui::End();
+		ImGui::ShowDemoWindow();
 
 	}
 

@@ -1,9 +1,12 @@
 #pragma once
 
 #include "Acrylic.h"
+#include "Panels/ViewportPanel.h"
+#include "Panels/SceneHierarchyPanel.h"
 
 
 namespace Acrylic {
+
 	class EditorLayer : public Layer
 	{
 	public:
@@ -20,11 +23,6 @@ namespace Acrylic {
 	private:
 		OrthographicCameraController m_EditorCameraController;
 
-		bool m_ViewportFocused = false;
-		bool m_ViewportHovered = false;
-		glm::vec2 m_ViewportSize = { 0, 0 };
-		Ref<Framebuffer> m_Framebuffer;
-
 
 		// Scene
 		Ref<Scene> m_ActiveScene;
@@ -36,5 +34,11 @@ namespace Acrylic {
 
 		// Textures
 		Ref<Texture2D> m_CheckerboardTexture;
+
+
+		// Panels
+		ViewportPanel m_ViewportPanel;
+		SceneHierarchyPanel m_SceneHierarchyPanel;
 	};
+
 }

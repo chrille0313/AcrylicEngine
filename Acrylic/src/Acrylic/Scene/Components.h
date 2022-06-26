@@ -69,7 +69,7 @@ namespace Acrylic {
 	struct CameraComponent
 	{
 		SceneCamera Camera;
-		bool Primary = false;
+		bool Primary = true;
 		bool FixedAspectRatio = false;
 
 		CameraComponent() = default;
@@ -79,7 +79,6 @@ namespace Acrylic {
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
-
 
 		ScriptableEntity* (*InstantiateScript)();
 		void(*DestroyScript)(NativeScriptComponent*);
