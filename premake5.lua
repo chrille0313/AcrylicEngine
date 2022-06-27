@@ -28,6 +28,7 @@ IncludeDir["ImGui"] = "%{wks.location}/Acrylic/vendor/imgui"
 IncludeDir["glm"] = "%{wks.location}/Acrylic/vendor/glm"
 IncludeDir["stb_image"] = "%{wks.location}/Acrylic/vendor/stb_image"
 IncludeDir["entt"] = "%{wks.location}/Acrylic/vendor/entt/include"
+IncludeDir["yaml_cpp"] = "%{wks.location}/Acrylic/vendor/yaml-cpp/include"
 
 group "Dependencies"
 	include "vendor/premake"
@@ -35,6 +36,7 @@ group "Dependencies"
 	include "Acrylic/vendor/Glad"
 	include "Acrylic/vendor/imgui"
 	--include "Acrylic/vendor/entt"
+	include "Acrylic/vendor/yaml-cpp"
 
 group ""
 

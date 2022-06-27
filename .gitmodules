@@ -10,3 +10,6 @@
 [submodule "Acrylic/vendor/glm"]
 	path = Acrylic/vendor/glm
 	url = ../../g-truc/glm.git
+[submodule "Acrylic/vendor/yaml-cpp"]
+	path = Acrylic/vendor/yaml-cpp
+	url = https://github.com/TheCherno/yaml-cpp

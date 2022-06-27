@@ -12,7 +12,3 @@ bin-int/
 **.vcxproj
 **.vcxproj.filters
 **.vcxproj.user
-
-Sandbox/AcrylicProfile-Startup.json
-Sandbox/AcrylicProfile-Shutdown.json
-Sandbox/AcrylicProfile-Runtime.json

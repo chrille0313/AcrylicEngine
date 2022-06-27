@@ -213,7 +213,7 @@ namespace Acrylic {
 			}
 
 			if (ImGui::MenuItem("SpriteRenderer")) {
-				m_SelectedEntity.AddComponent<CameraComponent>();
+				m_SelectedEntity.AddComponent<SpriteRendererComponent>();
 				ImGui::CloseCurrentPopup();
 			}
 
