@@ -142,7 +142,7 @@ namespace Acrylic {
 		colors[ImGuiCol_Tab] = colors[ImGuiCol_TitleBg];  // colors[ImGuiCol_Tab] = ImVec4(0.0f, 0.0f, 0.0f, 0.52f); 
 		colors[ImGuiCol_TabHovered] = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);  // colors[ImGuiCol_TabHovered] = ImVec4(0.14f, 0.14f, 0.14f, 1.0f);
 		colors[ImGuiCol_TabActive] = colors[ImGuiCol_WindowBg];  // colors[ImGuiCol_TabActive] = ImVec4(0.20f, 0.20f, 0.20f, 0.36f);
-		colors[ImGuiCol_TabActiveLine] = mainColor;
+		//colors[ImGuiCol_TabActiveLine] = mainColor;
 		colors[ImGuiCol_TabUnfocused] = colors[ImGuiCol_Tab];
 		colors[ImGuiCol_TabUnfocusedActive] = colors[ImGuiCol_TabActive];
 		colors[ImGuiCol_Border] = ImVec4(0.2f, 0.2f, 0.2f, 1.0f);

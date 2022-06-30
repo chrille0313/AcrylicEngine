@@ -2,13 +2,6 @@
 
 #include "EditorLayerPanel.h"
 
-#include "Acrylic/Core/Base.h"
-#include "Acrylic/Core/Log.h"
-#include "Acrylic/Scene/Entity.h"
-
-#include "Acrylic/Renderer/Framebuffer.h"
-
-#include <glm/glm.hpp>
 
 
 namespace Acrylic {

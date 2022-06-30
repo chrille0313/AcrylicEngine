@@ -2,10 +2,6 @@
 
 #include "EditorLayerPanel.h"
 
-#include "Acrylic/Scene/Scene.h"
-#include "Acrylic/Core/Base.h"
-#include "Acrylic/Scene/Entity.h"
-
 
 namespace Acrylic {
 

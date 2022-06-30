@@ -5,6 +5,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Acrylic/Scene/SceneSerializer.h"
+
+#include "Acrylic/Utils/PlatformUtils.h"
+
 
 namespace Acrylic {
 
@@ -113,6 +117,9 @@ namespace Acrylic {
 	void EditorLayer::OnEvent(Event& e)
 	{
 		m_EditorCameraController.OnEvent(e);
+
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(AC_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
 	}
 
 	void EditorLayer::OnImGuiRender()
@@ -192,6 +199,20 @@ namespace Acrylic {
 
 		if (ImGui::BeginMenuBar()) {
 			if (ImGui::BeginMenu("File")) {
+
+				if (ImGui::MenuItem("New", "Ctrl+N"))
+					NewScene();
+
+				if (ImGui::MenuItem("Open...", "Ctrl+O"))
+					OpenScene();
+
+				ImGui::Separator();
+
+				if (ImGui::MenuItem("Save As...", "Ctrl+Shift+S"))
+					SaveSceneAs();
+
+				ImGui::Separator();
+
 				if (ImGui::MenuItem("Exit"))
 					Application::Get().Close();
 
@@ -236,8 +257,68 @@ namespace Acrylic {
 
 		ImGui::End();  // End Dockspace
 
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
+		//ImGui::ShowMetricsWindow();
+	}
 
+	bool EditorLayer::OnKeyPressed(KeyPressedEvent& e)
+	{
+		if (e.GetRepeatCount() > 0)
+			return false;
+
+		bool control = Input::IsKeyPressed(Key::LeftControl) || Input::IsKeyPressed(Key::RightControl);
+		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
+
+		switch (e.GetKeyCode()) {
+			case Key::N:
+				if (control)
+					NewScene();
+
+				break;
+
+			case Key::O:
+				if (control)
+					OpenScene();
+
+				break;
+
+			case Key::S:
+				if (control && shift)
+					SaveSceneAs();
+
+				break;
+		}
+	}
+
+	void EditorLayer::NewScene()
+	{
+		m_ActiveScene = CreateRef<Scene>();
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+	}
+
+	void EditorLayer::OpenScene()
+	{
+		std::optional<std::string> filePath = FileDialogs::OpenFile("Acrylic Scene (*.acrylic)\0*.acrylic\0");
+
+		if (filePath) {
+			m_ActiveScene = CreateRef<Scene>();
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
+			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(*filePath);
+		}
+	}
+
+	void EditorLayer::SaveSceneAs()
+	{
+		std::optional<std::string> filePath = FileDialogs::SaveFile("Acrylic Svene (*.acrylic)\0*.acrylic\0");
+
+		if (filePath) {
+			SceneSerializer serializer(m_ActiveScene);
+			serializer.Deserialize(*filePath);
+		}
 	}
 
 }

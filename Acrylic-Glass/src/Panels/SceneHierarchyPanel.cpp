@@ -1,9 +1,12 @@
 #include "SceneHierarchyPanel.h"
+#include <cstring>
 
-#include <glm/gtc/type_ptr.hpp>
-
-#include "Acrylic/Scene/Components.h"
-#include <imgui/imgui_internal.h>
+/* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
+ * the following definition to disable a security warning on std::strncpy().
+ */
+#ifdef _MSVC_LANG
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 
 
 namespace Acrylic {
@@ -16,6 +19,7 @@ namespace Acrylic {
 	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
 	{
 		m_Context = context;
+		m_SelectedEntity = {};
 	}
 
 	void SceneHierarchyPanel::OnImGuiRenderInternal()
@@ -190,7 +194,7 @@ namespace Acrylic {
 
 			char buffer[256];
 			memset(buffer, 0, sizeof(buffer));
-			strcpy_s(buffer, sizeof(buffer), tag.c_str());
+			std::strncpy(buffer, tag.c_str(), sizeof(buffer));
 
 			if (ImGui::InputText("##Name", buffer, sizeof(buffer))) {
 				tag = std::string(buffer);
@@ -208,12 +212,18 @@ namespace Acrylic {
 
 		if (ImGui::BeginPopup("AddComponent")) {
 			if (ImGui::MenuItem("Camera")) {
-				m_SelectedEntity.AddComponent<CameraComponent>();
+				if (!m_SelectedEntity.HasComponent<CameraComponent>())
+					m_SelectedEntity.AddComponent<CameraComponent>();
+				else
+					AC_CORE_WARN("This entity already has the Camera Component!");
 				ImGui::CloseCurrentPopup();
 			}
 
-			if (ImGui::MenuItem("SpriteRenderer")) {
-				m_SelectedEntity.AddComponent<SpriteRendererComponent>();
+			if (ImGui::MenuItem("Sprite Renderer")) {
+				if (!m_SelectedEntity.HasComponent<SpriteRendererComponent>())
+					m_SelectedEntity.AddComponent<SpriteRendererComponent>();
+				else
+					AC_CORE_WARN("This entity already has the Sprite Renderer Component!");
 				ImGui::CloseCurrentPopup();
 			}
 
