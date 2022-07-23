@@ -29,10 +29,10 @@ namespace Acrylic {
 
 		// Framebuffer
 		FramebufferSpecification fbSpec;
+		fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::Depth };
 		fbSpec.Width = 1280;
 		fbSpec.Height = 720;
 		m_Framebuffer = Framebuffer::Create(fbSpec);
-		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 		m_EditorCamera = EditorCamera(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
@@ -72,7 +72,6 @@ namespace Acrylic {
 		*/
 
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
-
 	}
 
 	void EditorLayer::OnDetach()

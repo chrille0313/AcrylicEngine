@@ -24,7 +24,7 @@ namespace Acrylic {
 		glm::vec2 delta = (mouse - m_InitialMousePosition) * 0.003f;
 		m_InitialMousePosition = mouse;
 
-		if (Input::IsKeyPressed(Key::LeftAlt)) {
+		if (Input::IsKeyPressed(Key::LeftShift)) {
 			if (Input::IsMouseButtonPressed(Mouse::ButtonMiddle)) {
 				MousePan(delta);
 			}
