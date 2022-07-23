@@ -1,11 +1,13 @@
 #pragma once
 
-#include "EditorLayerPanel.h"
+#include "Acrylic/Core/Base.h"
+#include "Acrylic/Scene/Scene.h"
+#include "Acrylic/Scene/Entity.h"
 
 
 namespace Acrylic {
 
-	class SceneHierarchyPanel : public EditorLayerPanel
+	class SceneHierarchyPanel
 	{
 	public:
 		SceneHierarchyPanel() = default;
@@ -14,7 +16,9 @@ namespace Acrylic {
 
 		void SetContext(const Ref<Scene>& context);
 
-		void OnImGuiRenderInternal();
+		void OnImGuiRender();
+
+		Entity GetSelectedEntity() const { return m_SelectedEntity; }
 
 	private:
 		void DrawEntityNode(Entity entity);

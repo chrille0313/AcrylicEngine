@@ -17,7 +17,8 @@ project "Acrylic-Glass"
 		"%{wks.location}/Acrylic/src",
 		"%{wks.location}/Acrylic/vendor",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.ImGuizmo}",
 	}
 
 	links {

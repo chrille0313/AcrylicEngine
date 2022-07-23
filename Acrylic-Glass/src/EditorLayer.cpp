@@ -9,10 +9,14 @@
 
 #include "Acrylic/Utils/PlatformUtils.h"
 
+#include <ImGuizmo.h>
+
+#include "Acrylic/Math/Math.h"
+
 
 namespace Acrylic {
 
-	EditorLayer::EditorLayer() : Layer("EditorLayer"), m_EditorCameraController(1280.0f / 720.0f, true)
+	EditorLayer::EditorLayer() : Layer("EditorLayer")//, m_EditorCameraController(1280.0f / 720.0f, true)
 	{
 	}
 
@@ -23,6 +27,14 @@ namespace Acrylic {
 		// Textures
 		m_CheckerboardTexture = Texture2D::Create("assets/textures/Checkerboard.png");
 
+		// Framebuffer
+		FramebufferSpecification fbSpec;
+		fbSpec.Width = 1280;
+		fbSpec.Height = 720;
+		m_Framebuffer = Framebuffer::Create(fbSpec);
+		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
+		m_EditorCamera = EditorCamera(45.0f, 16.0f / 9.0f, 0.1f, 1000.0f);
 
 		// Scene
 		m_ActiveScene = CreateRef<Scene>();
@@ -32,9 +44,9 @@ namespace Acrylic {
 		Entity entity = m_ActiveScene->CreateEntity("Square Entity");
 		entity.AddComponent<SpriteRendererComponent>(glm::vec4 { 0.0f, 1.0f, 0.0f, 1.0f });
 
-		m_MainCamera = m_ActiveScene->CreateEntity("MainCamera");
-		m_MainCamera.AddComponent<CameraComponent>();
-		m_MainCamera.GetComponent<CameraComponent>().Primary = true;
+		//m_MainCamera = m_ActiveScene->CreateEntity("MainCamera");
+		//m_MainCamera.AddComponent<CameraComponent>();
+		//m_MainCamera.GetComponent<CameraComponent>().Primary = true;
 
 		/*
 		class CameraController : public ScriptableEntity
@@ -59,11 +71,8 @@ namespace Acrylic {
 		m_MainCamera.AddComponent <NativeScriptComponent>().Bind<CameraController>();
 		*/
 
-		FramebufferSpecification fbSpec;
-		fbSpec.Width = 1280;
-		fbSpec.Height = 720;
-		m_ViewportPanel.SetFramebuffer(fbSpec);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
+
 	}
 
 	void EditorLayer::OnDetach()
@@ -79,19 +88,23 @@ namespace Acrylic {
 
 
 		// Resize Framebuffer
-		if (Acrylic::FramebufferSpecification spec = m_ViewportPanel.GetFramebuffer()->GetSpecification();
-			m_ViewportPanel.m_ViewportSize.x > 0.0f && m_ViewportPanel.m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportPanel.m_ViewportSize.x || spec.Height != m_ViewportPanel.m_ViewportSize.y)) {
+		if (Acrylic::FramebufferSpecification spec = m_Framebuffer->GetSpecification();
+			m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
 
-			m_ViewportPanel.GetFramebuffer()->Resize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
-			m_EditorCameraController.OnResize(m_ViewportPanel.m_ViewportSize.x, m_ViewportPanel.m_ViewportSize.y);
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
+			m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+			//m_EditorCameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+
+			m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
+
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		}
 
 
-
 		// Update
-		if (m_ViewportPanel.IsFocused())
-			m_EditorCameraController.OnUpdate(ts);
+		//if (m_ViewportFocused)
+			//m_EditorCameraController.OnUpdate(ts);
+
+		m_EditorCamera.OnUpdate(ts);
 
 
 		// Render Prep
@@ -99,24 +112,25 @@ namespace Acrylic {
 		{
 			AC_PROFILE_SCOPE("Render Prep");
 
-			m_ViewportPanel.m_Framebuffer->Bind();
+			m_Framebuffer->Bind();
 			RenderCommand::SetClearColor({ 0.2f, 0.2f, 0.2f, 1.0f });
 			RenderCommand::Clear();
 		}
 
 
-		// Render Scene
+		// Update Scene
 		{
 			AC_PROFILE_SCOPE("Render Scene");
-			m_ActiveScene->OnUpdate(ts);
+			m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 		}
 
-		m_ViewportPanel.m_Framebuffer->Unbind();
+		m_Framebuffer->Unbind();
 	}
 
 	void EditorLayer::OnEvent(Event& e)
 	{
-		m_EditorCameraController.OnEvent(e);
+		m_EditorCamera.OnEvent(e);
+		//m_EditorCameraController.OnEvent(e);
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<KeyPressedEvent>(AC_BIND_EVENT_FN(EditorLayer::OnKeyPressed));
@@ -226,18 +240,71 @@ namespace Acrylic {
 
 
 		// PANELS
-		ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
+		//ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse;
+
+		m_SceneHierarchyPanel.OnImGuiRender();
 
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2 { 0, 0 });
-		m_ViewportPanel.OnImGuiRender("Viewport", windowFlags);
+		ImGui::Begin("Viewport");
+
+		m_ViewportFocused = ImGui::IsWindowFocused();
+		m_ViewportHovered = ImGui::IsWindowHovered();
+		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportFocused && !m_ViewportHovered);
+
+		ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
+		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
+		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2 { m_ViewportSize.x, m_ViewportSize.y }, ImVec2 { 0, 1 }, ImVec2 { 1, 0 });
+
+
+		// Gizmos
+		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
+		if (selectedEntity) {
+			ImGuizmo::SetOrthographic(false);
+			ImGuizmo::SetDrawlist();
+
+			float windowWidth = (float)ImGui::GetWindowWidth();
+			float windowHeight = (float)ImGui::GetWindowHeight();
+			ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
+
+			// Runtime Camera
+			//auto cameraEntity = m_ActiveScene->GetPrimaryCameraEntity();
+			//const auto& camera = cameraEntity.GetComponent<CameraComponent>().Camera;
+			//const glm::mat4& cameraProjection = camera.GetProjection();
+			//glm::mat4 cameraView = glm::inverse(cameraEntity.GetComponent<TransformComponent>().GetTransform());
+
+			// Editor Camera
+			const glm::mat4& cameraProjection = m_EditorCamera.GetProjection();
+			glm::mat4 cameraView = m_EditorCamera.GetViewMatrix();
+
+			// Entity transform
+			auto& transformComponent = selectedEntity.GetComponent<TransformComponent>();
+			glm::mat4 transform = transformComponent.GetTransform();
+
+			// Snapping
+			bool snap = Input::IsKeyPressed(Key::LeftControl);
+			float snapValue = m_GizmoType == ImGuizmo::OPERATION::ROTATE ? 45.0f : 0.5f;
+
+			float snapValues[3] = { snapValue, snapValue, snapValue };
+
+			ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)m_GizmoType, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, snap ? snapValues : nullptr);
+
+			if (ImGuizmo::IsUsing()) {
+				glm::vec3 position, rotation, scale;
+				Math::DecomposeTransform(transform, position, rotation, scale);
+
+				glm::vec3 deltaRotation = rotation - transformComponent.Rotation;
+				transformComponent.Position = position;
+				transformComponent.Rotation += deltaRotation;
+				transformComponent.Scale = scale;
+			}
+		}
+
+		ImGui::End();
 		ImGui::PopStyleVar();
 
-		m_SceneHierarchyPanel.OnImGuiRender("SceneHierarchy", windowFlags);
-
 		// END PANELS
-
-
-		Application::Get().GetImGuiLayer()->BlockEvents(!m_ViewportPanel.IsFocused() || !m_ViewportPanel.IsHovered());
 
 
 		// DEBUG
@@ -250,7 +317,6 @@ namespace Acrylic {
 		ImGui::Text("Vertices: %d", stats.GetTotalVertexCount());
 		ImGui::Text("Indices: %d", stats.GetTotalIndexCount());
 		ImGui::End();
-
 
 		// END DEBUG
 
@@ -270,22 +336,31 @@ namespace Acrylic {
 		bool shift = Input::IsKeyPressed(Key::LeftShift) || Input::IsKeyPressed(Key::RightShift);
 
 		switch (e.GetKeyCode()) {
+			// Scenes
 			case Key::N:
 				if (control)
 					NewScene();
-
 				break;
 
 			case Key::O:
 				if (control)
 					OpenScene();
-
 				break;
 
 			case Key::S:
 				if (control && shift)
 					SaveSceneAs();
+				break;
 
+				// Gizmos
+			case Key::Q:
+				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+				break;
+			case Key::W:
+				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+				break;
+			case Key::E:
+				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
 				break;
 		}
 	}
@@ -293,7 +368,7 @@ namespace Acrylic {
 	void EditorLayer::NewScene()
 	{
 		m_ActiveScene = CreateRef<Scene>();
-		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
+		m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 		m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 	}
 
@@ -303,7 +378,7 @@ namespace Acrylic {
 
 		if (filePath) {
 			m_ActiveScene = CreateRef<Scene>();
-			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportPanel.m_ViewportSize.x, (uint32_t)m_ViewportPanel.m_ViewportSize.y);
+			m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
 			m_SceneHierarchyPanel.SetContext(m_ActiveScene);
 
 			SceneSerializer serializer(m_ActiveScene);
@@ -313,11 +388,11 @@ namespace Acrylic {
 
 	void EditorLayer::SaveSceneAs()
 	{
-		std::optional<std::string> filePath = FileDialogs::SaveFile("Acrylic Svene (*.acrylic)\0*.acrylic\0");
+		std::optional<std::string> filePath = FileDialogs::SaveFile("Acrylic Scene (*.acrylic)\0*.acrylic\0");
 
 		if (filePath) {
 			SceneSerializer serializer(m_ActiveScene);
-			serializer.Deserialize(*filePath);
+			serializer.Serialize(*filePath);
 		}
 	}
 

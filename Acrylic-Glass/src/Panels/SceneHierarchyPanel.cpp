@@ -1,4 +1,12 @@
 #include "SceneHierarchyPanel.h"
+
+#include <imgui/imgui.h>
+#include <imgui/imgui_internal.h>
+
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Acrylic/Scene/Components.h"
+
 #include <cstring>
 
 /* The Microsoft C++ compiler is non-compliant with the C++ standard and needs
@@ -22,8 +30,10 @@ namespace Acrylic {
 		m_SelectedEntity = {};
 	}
 
-	void SceneHierarchyPanel::OnImGuiRenderInternal()
+	void SceneHierarchyPanel::OnImGuiRender()
 	{
+		ImGui::Begin("Scene Hierarchy");
+
 		static ImGuiTextFilter filter;
 		filter.Draw("Search");
 
@@ -45,6 +55,8 @@ namespace Acrylic {
 
 			ImGui::EndPopup();
 		}
+
+		ImGui::End();
 
 		ImGui::Begin("Properties");
 		if (m_SelectedEntity) {
@@ -212,18 +224,24 @@ namespace Acrylic {
 
 		if (ImGui::BeginPopup("AddComponent")) {
 			if (ImGui::MenuItem("Camera")) {
-				if (!m_SelectedEntity.HasComponent<CameraComponent>())
+				if (!m_SelectedEntity.HasComponent<CameraComponent>()) {
 					m_SelectedEntity.AddComponent<CameraComponent>();
-				else
+				}
+				else {
 					AC_CORE_WARN("This entity already has the Camera Component!");
+				}
+
 				ImGui::CloseCurrentPopup();
 			}
 
 			if (ImGui::MenuItem("Sprite Renderer")) {
-				if (!m_SelectedEntity.HasComponent<SpriteRendererComponent>())
+				if (!m_SelectedEntity.HasComponent<SpriteRendererComponent>()) {
 					m_SelectedEntity.AddComponent<SpriteRendererComponent>();
-				else
+				}
+				else {
 					AC_CORE_WARN("This entity already has the Sprite Renderer Component!");
+				}
+
 				ImGui::CloseCurrentPopup();
 			}
 

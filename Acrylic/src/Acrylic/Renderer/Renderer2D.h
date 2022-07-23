@@ -1,7 +1,8 @@
 #pragma once
 
-#include "Acrylic/Renderer/Camera.h"
 #include "Acrylic/Renderer/OrthographicCamera.h"
+#include "Acrylic/Renderer/Camera.h"
+#include "Acrylic/Renderer/EditorCamera.h"
 
 #include "Acrylic/Renderer/Texture.h"
 #include "Acrylic/Renderer/SubTexture2D.h"
@@ -16,6 +17,7 @@ namespace Acrylic {
 		static void Shutdown();
 
 		static void BeginScene(const Camera& camera, const glm::mat4& transform);
+		static void BeginScene(const EditorCamera& camera);
 		static void BeginScene(const OrthographicCamera& camera);  // TODO: Remove this
 		static void EndScene();
 		static void Flush();
