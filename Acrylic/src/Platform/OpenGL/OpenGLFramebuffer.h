@@ -20,7 +20,7 @@ namespace Acrylic {
 
 		virtual const FramebufferSpecification& GetSpecification() const override { return m_Specification; };
 
-		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { AC_CORE_INFO(index); AC_CORE_INFO(m_ColorAttachments.size()); AC_CORE_ASSERT(index < m_ColorAttachments.size()); return m_ColorAttachments[index]; }
+		virtual uint32_t GetColorAttachmentRendererID(uint32_t index = 0) const override { AC_CORE_ASSERT(index < m_ColorAttachments.size()); return m_ColorAttachments[index]; }
 
 	private:
 		uint32_t m_RendererID = 0;
@@ -32,5 +32,7 @@ namespace Acrylic {
 		std::vector<uint32_t> m_ColorAttachments;
 		uint32_t m_DepthAttachment;
 	};
+
+
 
 }
