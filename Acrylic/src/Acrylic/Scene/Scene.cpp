@@ -11,14 +11,6 @@
 
 namespace Acrylic {
 
-	Scene::Scene()
-	{
-	}
-
-	Scene::~Scene()
-	{
-	}
-
 	Entity Scene::CreateEntity(const std::string& name)
 	{
 		Entity entity = { m_Registry.create(), this };
@@ -70,7 +62,16 @@ namespace Acrylic {
 
 		{
 			if (mainCamera) {
+				Renderer2D::BeginScene(*mainCamera, *cameraTransform);
 
+				auto group = m_Registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
+				for (auto entity : group) {
+					auto [transform, spriteRenderer] = group.get<TransformComponent, SpriteRendererComponent>(entity);
+
+					Renderer2D::DrawSprite(transform.GetTransform(), spriteRenderer, (int)entity);
+				}
+
+				Renderer2D::EndScene();
 			}
 		}
 
@@ -84,7 +85,7 @@ namespace Acrylic {
 
 		for (auto entity : group) {
 			auto [transform, spriteRenderer] = group.get<TransformComponent, SpriteRendererComponent>(entity);
-			Renderer2D::DrawQuad(transform.GetTransform(), spriteRenderer.Color);
+			Renderer2D::DrawSprite(transform.GetTransform(), spriteRenderer, (int)entity);
 		}
 
 		Renderer2D::EndScene();
