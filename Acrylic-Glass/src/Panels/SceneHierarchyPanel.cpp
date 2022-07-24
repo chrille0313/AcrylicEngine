@@ -66,6 +66,11 @@ namespace Acrylic {
 		ImGui::End();
 	}
 
+	void SceneHierarchyPanel::SetSelectedEntity(Entity entity)
+	{
+		m_SelectedEntity = entity;
+	}
+
 	template<typename Component, typename UIFunc>
 	static void DrawComponent(const std::string& name, Entity entity, UIFunc uiFunc, bool removable = true)
 	{

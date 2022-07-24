@@ -23,6 +23,7 @@ namespace Acrylic {
 
 	private:
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
 		void NewScene();
 		void OpenScene();
@@ -46,10 +47,12 @@ namespace Acrylic {
 
 		// Editor
 		EditorCamera m_EditorCamera;
+		Entity m_HoveredEntity;
 
 		// Viewport Panel
 		Ref<Framebuffer> m_Framebuffer;
 		glm::vec2 m_ViewportSize = { 0, 0 };
+		glm::vec2 m_ViewportBounds[2];
 
 		bool m_ViewportFocused = false;
 		bool m_ViewportHovered = false;

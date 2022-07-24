@@ -19,6 +19,7 @@ namespace Acrylic {
 		void OnImGuiRender();
 
 		Entity GetSelectedEntity() const { return m_SelectedEntity; }
+		void SetSelectedEntity(Entity entity);
 
 	private:
 		void DrawEntityNode(Entity entity);

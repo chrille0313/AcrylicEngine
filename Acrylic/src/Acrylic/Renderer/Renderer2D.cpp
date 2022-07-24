@@ -17,6 +17,9 @@ namespace Acrylic {
 		glm::vec2 TextureCoord;
 		float TextureIndex;
 		float TilingScale;
+
+		// Editor-only
+		int EntityID;
 	};
 
 	struct Renderer2DData
@@ -60,6 +63,7 @@ namespace Acrylic {
 			{ ShaderDataType::Float2, "a_TextureCoord" },
 			{ ShaderDataType::Float,  "a_TextureIndex" },
 			{ ShaderDataType::Float,  "a_TilingScale" },
+			{ ShaderDataType::Int,  "a_EntityID" },
 										   });
 		s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
@@ -289,12 +293,12 @@ namespace Acrylic {
 		s_Data.Stats.QuadCount++;
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
 	{
-		DrawQuad(transform, s_Data.WhiteTexture, color);
+		DrawQuad(transform, s_Data.WhiteTexture, color, 1, entityID);
 	}
 
-	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale)
+	void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, const glm::vec4& color, float tilingScale, int entityID)
 	{
 		AC_PROFILE_FUNCTION();
 
@@ -327,12 +331,18 @@ namespace Acrylic {
 			s_Data.QuadVertexBufferPtr->TextureCoord = TextureCoords[i];
 			s_Data.QuadVertexBufferPtr->TextureIndex = textureIndex;
 			s_Data.QuadVertexBufferPtr->TilingScale = tilingScale;
+			s_Data.QuadVertexBufferPtr->EntityID = entityID;
 			s_Data.QuadVertexBufferPtr++;
 		}
 
 		s_Data.QuadIndexCount += 6;
 
 		s_Data.Stats.QuadCount++;
+	}
+
+	void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+	{
+		DrawQuad(transform, src.Color, entityID);
 	}
 
 	Renderer2D::Statistics Renderer2D::GetStats()

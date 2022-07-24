@@ -1,18 +1,20 @@
 #type vertex
-#version 330 core
+#version 450
 		
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec4 a_Color;
 layout(location = 2) in vec2 a_TextureCoord;
 layout(location = 3) in float a_TextureIndex;
 layout(location = 4) in float a_TilingScale;
+layout(location = 5) in int a_EntityID;
 
 uniform mat4 u_ViewProjection;
 
-out vec2 v_TextureCoord;
-out float v_TextureIndex;
 out vec4 v_Color;
+out vec2 v_TextureCoord;
+out flat float v_TextureIndex;
 out float v_TilingScale;
+out flat int v_EntityID;
 
 void main()
 {
@@ -20,19 +22,22 @@ void main()
 	v_TextureCoord = a_TextureCoord;
 	v_TextureIndex = a_TextureIndex;
 	v_TilingScale = a_TilingScale;
+	v_EntityID = a_EntityID;
 	gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 }
 
 
 #type fragment
-#version 330 core
+#version 450
 		
 layout(location = 0) out vec4 color;
+layout(location = 1) out int entityID;
 
-in vec2 v_TextureCoord;
-in float v_TextureIndex;
 in vec4 v_Color;
+in vec2 v_TextureCoord;
+in flat float v_TextureIndex;
 in float v_TilingScale;
+in flat int v_EntityID;
 
 uniform sampler2D u_Textures[32];
 
@@ -40,6 +45,7 @@ void main()
 {
 	// TODO: u_TilingScale
 	vec4 textureColor = v_Color;
+
 	switch(int(v_TextureIndex))
 	{
 		case 0: textureColor *= texture(u_Textures[0], v_TextureCoord * v_TilingScale); break;
@@ -75,5 +81,7 @@ void main()
 		case 30: textureColor *= texture(u_Textures[30], v_TextureCoord * v_TilingScale); break;
 		case 31: textureColor *= texture(u_Textures[31], v_TextureCoord * v_TilingScale); break;
 	}
+
 	color = textureColor;
+	entityID = v_EntityID;
 }
