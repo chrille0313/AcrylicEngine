@@ -42,7 +42,7 @@ namespace Acrylic {
 
 		// Entities
 		Entity entity = m_ActiveScene->CreateEntity("Square Entity");
-		entity.AddComponent<SpriteRendererComponent>(glm::vec4 { 0.0f, 1.0f, 0.0f, 1.0f });
+		entity.AddComponent<SpriteRendererComponent>(glm::vec4{ 0.0f, 1.0f, 0.0f, 1.0f });
 
 		//m_MainCamera = m_ActiveScene->CreateEntity("MainCamera");
 		//m_MainCamera.AddComponent<CameraComponent>();
@@ -260,7 +260,7 @@ namespace Acrylic {
 
 		m_SceneHierarchyPanel.OnImGuiRender();
 
-		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2 { 0, 0 });
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0, 0 });
 		ImGui::Begin("Viewport");
 		auto viewportMinRegion = ImGui::GetWindowContentRegionMin();
 		auto viewportMaxRegion = ImGui::GetWindowContentRegionMax();
@@ -276,7 +276,7 @@ namespace Acrylic {
 		m_ViewportSize = { viewportPanelSize.x, viewportPanelSize.y };
 
 		uint64_t textureID = m_Framebuffer->GetColorAttachmentRendererID();
-		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2 { m_ViewportSize.x, m_ViewportSize.y }, ImVec2 { 0, 1 }, ImVec2 { 1, 0 });
+		ImGui::Image(reinterpret_cast<void*>(textureID), ImVec2{ m_ViewportSize.x, m_ViewportSize.y }, ImVec2{ 0, 1 }, ImVec2{ 1, 0 });
 
 		// Gizmos
 		Entity selectedEntity = m_SceneHierarchyPanel.GetSelectedEntity();
@@ -358,34 +358,34 @@ namespace Acrylic {
 
 		switch (e.GetKeyCode()) {
 			// Scenes
-			case Key::N:
-				if (control)
-					NewScene();
-				break;
+		case Key::N:
+			if (control)
+				NewScene();
+			break;
 
-			case Key::O:
-				if (control)
-					OpenScene();
-				break;
+		case Key::O:
+			if (control)
+				OpenScene();
+			break;
 
-			case Key::S:
-				if (control && shift)
-					SaveSceneAs();
-				break;
+		case Key::S:
+			if (control && shift)
+				SaveSceneAs();
+			break;
 
-				// Gizmos
-			case Key::Q:
-				if (!ImGuizmo::IsUsing())
-					m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
-				break;
-			case Key::W:
-				if (!ImGuizmo::IsUsing())
-					m_GizmoType = ImGuizmo::OPERATION::SCALE;
-				break;
-			case Key::E:
-				if (!ImGuizmo::IsUsing())
-					m_GizmoType = ImGuizmo::OPERATION::ROTATE;
-				break;
+			// Gizmos
+		case Key::Q:
+			if (!ImGuizmo::IsUsing())
+				m_GizmoType = ImGuizmo::OPERATION::TRANSLATE;
+			break;
+		case Key::W:
+			if (!ImGuizmo::IsUsing())
+				m_GizmoType = ImGuizmo::OPERATION::SCALE;
+			break;
+		case Key::E:
+			if (!ImGuizmo::IsUsing())
+				m_GizmoType = ImGuizmo::OPERATION::ROTATE;
+			break;
 		}
 	}
 

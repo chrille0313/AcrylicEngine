@@ -38,12 +38,12 @@ namespace Acrylic {
 		filter.Draw("Search");
 
 		m_Context->m_Registry.each([&](auto entityID)
-		{
-			Entity entity { entityID, m_Context.get() };
+			{
+				Entity entity{ entityID, m_Context.get() };
 
-			if (filter.PassFilter(entity.GetComponent<TagComponent>().Tag.c_str()))
-				DrawEntityNode(entity);
-		});
+				if (filter.PassFilter(entity.GetComponent<TagComponent>().Tag.c_str()))
+					DrawEntityNode(entity);
+			});
 
 		if (ImGui::IsWindowHovered() && ImGui::IsMouseDown(0)) {
 			m_SelectedEntity = {};
@@ -142,7 +142,7 @@ namespace Acrylic {
 		ImGui::PushStyleColor(ImGuiCol_Button, colors.Default);
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, colors.Hovered);
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, colors.Active);
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2 { 0, 0 });
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 0, 0 });
 
 		if (ImGui::Button(label.c_str(), buttonSize))
 			value = resetValue;
@@ -169,7 +169,7 @@ namespace Acrylic {
 
 		float lineHeight = GImGui->Font->FontSize + GImGui->Style.FramePadding.y * 2.0f;
 		ImVec2 buttonSize = { lineHeight + 3.0f, lineHeight };
-		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2 { 6, 0 });
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2{ 6, 0 });
 
 
 		// X
@@ -256,71 +256,71 @@ namespace Acrylic {
 		ImGui::PopItemWidth();
 
 		DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
-		{
-			DrawVec3Control("Position", component.Position);
-			DrawVec3Control("Rotation", component.Rotation);
-			DrawVec3Control("Scale", component.Scale, 1.0f);
-		});
+			{
+				DrawVec3Control("Position", component.Position);
+				DrawVec3Control("Rotation", glm::degrees(component.Rotation));
+				DrawVec3Control("Scale", component.Scale, 1.0f);
+			});
 		DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
-		{
-			auto& camera = component.Camera;
+			{
+				auto& camera = component.Camera;
 
-			ImGui::Checkbox("Primary", &component.Primary);
+				ImGui::Checkbox("Primary", &component.Primary);
 
-			const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
-			const char* currentProjectionType = projectionTypeStrings[(int)camera.GetProjectionType()];
+				const char* projectionTypeStrings[] = { "Perspective", "Orthographic" };
+				const char* currentProjectionType = projectionTypeStrings[(int)camera.GetProjectionType()];
 
-			if (ImGui::BeginCombo("Projection", currentProjectionType)) {
+				if (ImGui::BeginCombo("Projection", currentProjectionType)) {
 
-				for (int i = 0; i < sizeof(projectionTypeStrings) / sizeof(const char*); i++) {
-					bool isSelected = currentProjectionType == projectionTypeStrings[i];
+					for (int i = 0; i < sizeof(projectionTypeStrings) / sizeof(const char*); i++) {
+						bool isSelected = currentProjectionType == projectionTypeStrings[i];
 
-					if (ImGui::Selectable(projectionTypeStrings[i], isSelected)) {
-						currentProjectionType = projectionTypeStrings[i];
-						camera.SetProjectionType((SceneCamera::ProjectionType)i);
+						if (ImGui::Selectable(projectionTypeStrings[i], isSelected)) {
+							currentProjectionType = projectionTypeStrings[i];
+							camera.SetProjectionType((SceneCamera::ProjectionType)i);
+						}
+
+						if (isSelected)
+							ImGui::SetItemDefaultFocus();
 					}
 
-					if (isSelected)
-						ImGui::SetItemDefaultFocus();
+					ImGui::EndCombo();
 				}
 
-				ImGui::EndCombo();
-			}
+				if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective) {
+					float fov = camera.GetPerspectiveFOV();
+					if (ImGui::DragFloat("FOV", &fov))
+						camera.SetPerspectiveFOV(fov);
 
-			if (camera.GetProjectionType() == SceneCamera::ProjectionType::Perspective) {
-				float fov = camera.GetPerspectiveFOV();
-				if (ImGui::DragFloat("FOV", &fov))
-					camera.SetPerspectiveFOV(fov);
+					float nearClip = camera.GetPerspectiveNear();
+					if (ImGui::DragFloat("Near", &nearClip))
+						camera.SetPerspectiveNear(nearClip);
 
-				float nearClip = camera.GetPerspectiveNear();
-				if (ImGui::DragFloat("Near", &nearClip))
-					camera.SetPerspectiveNear(nearClip);
+					float farClip = camera.GetPerspectiveFar();
+					if (ImGui::DragFloat("Far", &farClip))
+						camera.SetPerspectiveFar(farClip);
+				}
+				else if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic) {
+					float orthoSize = camera.GetOrthographicSize();
+					if (ImGui::DragFloat("Size", &orthoSize))
+						camera.SetOrthographicSize(orthoSize);
 
-				float farClip = camera.GetPerspectiveFar();
-				if (ImGui::DragFloat("Far", &farClip))
-					camera.SetPerspectiveFar(farClip);
-			}
-			else if (camera.GetProjectionType() == SceneCamera::ProjectionType::Orthographic) {
-				float orthoSize = camera.GetOrthographicSize();
-				if (ImGui::DragFloat("Size", &orthoSize))
-					camera.SetOrthographicSize(orthoSize);
+					float nearClip = camera.GetOrthographicNear();
+					if (ImGui::DragFloat("Near", &nearClip))
+						camera.SetOrthographicNear(nearClip);
 
-				float nearClip = camera.GetOrthographicNear();
-				if (ImGui::DragFloat("Near", &nearClip))
-					camera.SetOrthographicNear(nearClip);
+					float farClip = camera.GetOrthographicFar();
+					if (ImGui::DragFloat("Far", &farClip))
+						camera.SetOrthographicFar(farClip);
 
-				float farClip = camera.GetOrthographicFar();
-				if (ImGui::DragFloat("Far", &farClip))
-					camera.SetOrthographicFar(farClip);
-
-				ImGui::Checkbox("Fixed Aspect Ratio", &component.FixedAspectRatio);
-			}
-		});
+					ImGui::Checkbox("Fixed Aspect Ratio", &component.FixedAspectRatio);
+				}
+			});
 
 		DrawComponent<SpriteRendererComponent>("SpriteRenderer", entity, [](auto& component)
-		{
-			ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
-		});
+			{
+				ImGui::ColorEdit4("Color", glm::value_ptr(component.Color));
+			});
 
 	}
 
